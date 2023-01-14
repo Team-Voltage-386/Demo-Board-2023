@@ -4,6 +4,14 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -14,6 +22,40 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int kLimitSwitchPort = 0;
+    public static final int kPushButton = 2;
+    public static final int kOGSparkPort = 3;
+    public static final int CANTalonSRX = 2;
+    public static final int SparkMax = 1;
+    public static final int PCM = 0;
+    public static final int UltraDIOPort = 4;  // ultrasonic 
+    public static final int Servo = 0;
+    public static final int kIMUid = 12;  // pigeon
+    public static final int SolenoidportForward = 3;
+    public static final int SolenoidportBackward = 4;
+    public static final Joystick kDriverController = new Joystick(0);
+    public static final Joystick kManipulatorController = new Joystick(1);
+
+    public static final int kLeftVertical = 1;
+    public static final int kRightVertical = 5;
+    public static final int kLeftHorizontal = 0;
+    public static final int kRightHorizontal = 4;
+    public static final int kLeftTrigger = 2;
+    public static final int kRightTrigger = 3;
+
+    public static final int kA = 1;
+    public static final int kB = 2;
+    public static final int kX = 3;
+    public static final int kY = 4;
+    public static final int kLeftBumper = 5;
+    public static final int kRightBumper = 6;
+    public static final int kLeftOptions = 7;
+    public static final int kRightOptions = 8;
+    public static final int kLeftJoystickPressed = 9;
+    public static final int kRightJoystickPressed = 10;
+    
+
+
+
   }
 }
