@@ -33,8 +33,8 @@ public final class Constants {
     public static final int kIMUid = 12;  // pigeon
     public static final int SolenoidportForward = 3;
     public static final int SolenoidportBackward = 4;
-    public static final Joystick kDriverController = new Joystick(0);
-    public static final Joystick kManipulatorController = new Joystick(1);
+    public static final int kDriverControllerPort = 0;
+    public static final int kManipulatorControllerPort = 0;
 
     public static final int kLeftVertical = 1;
     public static final int kRightVertical = 5;
