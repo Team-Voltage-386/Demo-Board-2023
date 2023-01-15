@@ -37,6 +37,7 @@ public class MotorSubsystem extends SubsystemBase {
     return runOnce(
         () -> {
           /* one-time action goes here */
+          m_sparkController.set(0.5);
         });
   }
 
