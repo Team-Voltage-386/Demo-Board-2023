@@ -43,16 +43,16 @@ public final class Constants {
     public static final int kLeftTrigger = 2;
     public static final int kRightTrigger = 3;
 
-    public static final int kA = 1;
-    public static final int kB = 2;
-    public static final int kX = 3;
-    public static final int kY = 4;
-    public static final int kLeftBumper = 5;
-    public static final int kRightBumper = 6;
-    public static final int kLeftOptions = 7;
-    public static final int kRightOptions = 8;
-    public static final int kLeftJoystickPressed = 9;
-    public static final int kRightJoystickPressed = 10;
+    public static final int kA = 0;
+    public static final int kB = 1;
+    public static final int kX = 2;
+    public static final int kY = 3;
+    public static final int kLeftBumper = 4;
+    public static final int kRightBumper = 5;
+    public static final int kLeftOptions = 6;
+    public static final int kRightOptions = 7;
+    public static final int kLeftJoystickPressed = 8;
+    public static final int kRightJoystickPressed = 9;
     
 
 
