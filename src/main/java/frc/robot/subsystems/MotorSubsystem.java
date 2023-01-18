@@ -21,9 +21,9 @@ public class MotorSubsystem extends SubsystemBase {
 
   /** Creates a new MotorSubsystem. */
   public MotorSubsystem() {
-    m_talonController = new WPI_TalonSRX(Constants.OperatorConstants.CANTalonSRX);
-    m_sparkMaxController = new CANSparkMax(Constants.OperatorConstants.SparkMax, MotorType.kBrushless);
-    m_sparkController = new Spark(Constants.OperatorConstants.kOGSparkPort);
+    m_talonController = new WPI_TalonSRX(Constants.CANTalonSRX);
+    m_sparkMaxController = new CANSparkMax(Constants.SparkMax, MotorType.kBrushless);
+    m_sparkController = new Spark(Constants.kOGSparkPort);
   }
 
   /**
