@@ -8,9 +8,13 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.MotorSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+//import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -26,11 +30,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final MotorSubsystem m_motorSubsystem = new MotorSubsystem();
+  private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
-      Trigger xButton = m_driverController.x(); // Creates a new Trigger object for the `X` button on exampleCommandController
+  // private final CommandXboxController m_driverController = new
+  // CommandXboxController(
+  // Constants.kDriverControllerPort);
+
+  // The driver's controller
+  XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -53,14 +61,25 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    //new Trigger(m_motorSubsystem::ifButtonPressed).onTrue(new MotorCommand(m_motorSubsystem));
+    // new Trigger(m_motorSubsystem::ifButtonPressed).onTrue(new
+    // MotorCommand(m_motorSubsystem));
 
     // Schedule `startSparkMotor` when the Xbox controller's B button is
     // pressed, cancelling on release.
-    m_driverController.b().whileTrue(m_motorSubsystem.startSparkMotor());
-    m_driverController.b().onFalse(m_motorSubsystem.stopSparkMotor());
+    // m_driverController.b().whileTrue(m_motorSubsystem.startSparkMotor());
+    // m_driverController.b().onFalse(m_motorSubsystem.stopSparkMotor());
 
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kB)
+        .whileTrue(m_motorSubsystem.startSparkMotor());
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kB)
+        .onFalse(m_motorSubsystem.stopSparkMotor());
 
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kX).onTrue(m_LEDSubsystem.setYellow(0));
+
+    // TBD
+    // make a button to start the rainbow command when pressed (whileTrue)
+    // does releasing the button stop the command?
+ 
   }
 
   /**
