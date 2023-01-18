@@ -12,6 +12,7 @@ public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LEDSubsytem. */
   private static final int kLEDPort = 4;
   private static final int kLEDLength = 10;
+  private String currentColor = "yellow";
 
   AddressableLED led = new AddressableLED(kLEDPort);
   
@@ -23,20 +24,30 @@ public class LEDSubsystem extends SubsystemBase {
     led.start();
   }
 
-  public void setAll(String color) {
-    if (color.equals("purple")) {
-      for(int i = 0; i < kLEDLength; i++) {
+  public void setAll(String color)
+  {
+    currentColor = color;
+    if (color.equals("purple"))
+    {
+      for(int i = 0; i < kLEDLength; i++)
+      {
         setPurple(i);
       }
     }
 
-    if (color.equals("yellow")) {
-      for(int i = 0; i < kLEDLength; i++) {
+    if (color.equals("yellow"))
+    {
+      for(int i = 0; i < kLEDLength; i++)
+      {
         setYellow(i);
       }
     }
   }
-      
+    
+  public String getColor()
+  {
+    return currentColor;
+  }
 
   public void setPurple(int index) {
     ledBuffer.setRGB(index, 128, 0, 128);
@@ -46,6 +57,26 @@ public class LEDSubsystem extends SubsystemBase {
     ledBuffer.setRGB(index, 255, 255, 0);
   }
   
+  public void toggleColor()
+  {
+    if(currentColor.equals("yellow"))
+    {
+      currentColor = "purple";
+      for(int i = 0; i < kLEDLength; i++)
+      {
+        setPurple(i);
+      }
+    }
+    else
+    {
+      currentColor = "yellow";
+      for(int i = 0; i < kLEDLength; i++)
+      {
+        setYellow(i);
+      }
+    }
+  }
+
 
   @Override
   public void periodic() {
