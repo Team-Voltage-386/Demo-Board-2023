@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDSubsystem extends SubsystemBase {
@@ -14,7 +16,7 @@ public class LEDSubsystem extends SubsystemBase {
   private static final int kLEDLength = 10;
 
   AddressableLED led = new AddressableLED(kLEDPort);
-  
+
   AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(kLEDLength);
 
   public LEDSubsystem() {
@@ -23,34 +25,43 @@ public class LEDSubsystem extends SubsystemBase {
     led.start();
   }
 
-  public void setAll(String color) {
-    if (color.equals("purple")) {
-      for(int i = 0; i < kLEDLength; i++) {
-        setPurple(i);
-      }
-    }
+  public CommandBase setAll(String color) {
+    return runOnce(
+        () -> {
+          if (color.equals("purple")) {
+            for (int i = 0; i < kLEDLength; i++) {
+              setPurple(i);
+            }
+            System.out.println("purple");
+          }
 
-    if (color.equals("yellow")) {
-      for(int i = 0; i < kLEDLength; i++) {
-        setYellow(i);
-      }
-    }
-  }
-      
-
-  public void setPurple(int index) {
-    ledBuffer.setRGB(index, 128, 0, 128);
+          if (color.equals("yellow")) {
+            for (int i = 0; i < kLEDLength; i++) {
+              setYellow(i);
+            }
+            System.out.println("yellow");
+          }
+        });
   }
 
-  public void setYellow(int index) {
-    ledBuffer.setRGB(index, 255, 255, 0);
+  public CommandBase setPurple(int index) {
+    return runOnce(
+        () -> {
+          ledBuffer.setRGB(index, 128, 0, 128);
+        });
   }
-  
+
+  public CommandBase setYellow(int index) {
+    return runOnce(
+        () -> {
+          ledBuffer.setRGB(index, 255, 255, 0);
+        });
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     led.setData(ledBuffer);
-    
+
   }
 }
