@@ -55,12 +55,12 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     //new Trigger(m_motorSubsystem::ifButtonPressed).onTrue(new MotorCommand(m_motorSubsystem));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
+    // Schedule `startSparkMotor` when the Xbox controller's B button is
     // pressed, cancelling on release.
-    m_driverController.b().whileTrue(m_motorSubsystem.exampleMotorCommand());
+    m_driverController.b().whileTrue(m_motorSubsystem.startSparkMotor());
+    m_driverController.b().onFalse(m_motorSubsystem.stopSparkMotor());
 
-    // TBD how to write a button binding to start the spark motor?
-    // m_driverController.getLeftY()
+
   }
 
   /**

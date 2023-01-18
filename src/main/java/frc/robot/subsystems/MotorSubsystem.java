@@ -31,13 +31,23 @@ public class MotorSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public CommandBase exampleMotorCommand() {
+  
+   public CommandBase startSparkMotor() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
         () -> {
           /* one-time action goes here */
           m_sparkController.set(0.5);
+        });
+  }
+  public CommandBase stopSparkMotor() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return runOnce(
+        () -> {
+          /* one-time action goes here */
+          m_sparkController.set(0);
         });
   }
 
