@@ -26,8 +26,6 @@ public class LEDSubsystem extends SubsystemBase {
     led.start();
   }
 
-  <<<<<<<HEAD
-
   public CommandBase setAll(String color) {
     return runOnce(
         () -> {
@@ -45,9 +43,8 @@ public class LEDSubsystem extends SubsystemBase {
             System.out.println("yellow");
           }
         });
-=======
 
-  public void setAll(String color) {
+  public void setAll2(String color) {
     currentColor = color;
     if (color.equals("purple")) {
       for (int i = 0; i < kLEDLength; i++) {
@@ -68,7 +65,6 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void setPurple(int index) {
     ledBuffer.setRGB(index, 128, 0, 128);
->>>>>>> a4e64613f2effe613436bd5ef96e797e43f5af2f
   }
 
   public CommandBase setPurple(int index) {
