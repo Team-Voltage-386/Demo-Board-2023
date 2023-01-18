@@ -74,7 +74,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Constants.OperatorConstants.kB)
         .onFalse(m_motorSubsystem.stopSparkMotor());
 
-    new JoystickButton(m_driverController, Constants.OperatorConstants.kX).onTrue(m_LEDSubsystem.setYellow(0));
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kX).onTrue(m_LEDSubsystem.setPurple(0));
 
     // TBD
     // make a button to start the rainbow command when pressed (whileTrue)
