@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,8 +14,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LEDSubsytem. */
   private static final int kLEDPort = 4;
-  private static final int kLEDLength = 10;
+  private static final int kLEDLength = 60;
   private String currentColor = "yellow";
+  private boolean isYellow = false;
 
   AddressableLED led = new AddressableLED(kLEDPort);
 
@@ -22,80 +24,98 @@ public class LEDSubsystem extends SubsystemBase {
 
   public LEDSubsystem() {
     led.setLength(kLEDLength);
+    setAllWhite();
     led.setData(ledBuffer);
     led.start();
   }
 
-  public CommandBase setAll(String color) {
+  public CommandBase setAllPurple() {
     return runOnce(
         () -> {
-          if (color.equals("purple")) {
-            for (int i = 0; i < kLEDLength; i++) {
-              setPurple(i);
-            }
-            System.out.println("purple");
-          }
-
-          if (color.equals("yellow")) {
-            for (int i = 0; i < kLEDLength; i++) {
-              setYellow(i);
-            }
-            System.out.println("yellow");
+          for (int i = 0; i < ledBuffer.getLength(); i++) {
+            ledBuffer.setRGB(i, 119, 0, 200);
           }
         });
+  }
 
-  public void setAll2(String color) {
-    currentColor = color;
-    if (color.equals("purple")) {
-      for (int i = 0; i < kLEDLength; i++) {
-        setPurple(i);
-      }
-    }
-
-    if (color.equals("yellow")) {
-      for (int i = 0; i < kLEDLength; i++) {
-        setYellow(i);
-      }
+  public void allPurple() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 119, 0, 200);
     }
   }
 
-  public String getColor() {
-    return currentColor;
+  public void setAllWhite() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 255, 255, 255);
+    }
   }
 
-  public void setPurple(int index) {
-    ledBuffer.setRGB(index, 128, 0, 128);
-  }
-
-  public CommandBase setPurple(int index) {
+  public CommandBase setAllYellow() {
     return runOnce(
         () -> {
-          ledBuffer.setRGB(index, 128, 0, 128);
+          for (int i = 0; i < ledBuffer.getLength(); i++) {
+            ledBuffer.setRGB(i, 255, 255, 0);
+          }
         });
   }
 
-  public CommandBase setYellow(int index) {
-    return runOnce(
-        () -> {
-          ledBuffer.setRGB(index, 255, 255, 0);
-        });
-  }
-
-  public void toggleColor() {
-    if (currentColor.equals("yellow")) {
-      currentColor = "purple";
-      for (int i = 0; i < kLEDLength; i++) {
-        setPurple(i);
-      }
-    } else {
-      currentColor = "yellow";
-      for (int i = 0; i < kLEDLength; i++) {
-        setYellow(i);
-      }
+  public void allYellow() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 255, 255, 0);
     }
   }
 
-  @Override
+  public CommandBase twoColorToggle() {
+    return runOnce(
+        () -> {
+          if (isYellow == true) {
+            allPurple();
+            System.out.println("Setting all purple");
+            isYellow = false;
+          } else {
+            allYellow();
+            System.out.println("Setting all yellow");
+            isYellow = true;
+          }
+        });
+  }
+
+  private int rainbowFirstPixelHue = 1;
+
+  public void rainbow() {
+    for (var i = 0; i < ledBuffer.getLength(); i++) {
+      final var hue = (rainbowFirstPixelHue + (i * 180 / ledBuffer.getLength())) % 180;
+      ledBuffer.setHSV(i, hue, 255, 128);
+    }
+    rainbowFirstPixelHue += 3;
+    rainbowFirstPixelHue %= 180;
+  }
+
+  public CommandBase commandRainbow() {
+    return runOnce(
+        () -> {
+          for (var i = 0; i < ledBuffer.getLength(); i++) {
+            final var hue = (rainbowFirstPixelHue + (i * 180 / ledBuffer.getLength())) % 180;
+            ledBuffer.setHSV(i, hue, 255, 128);
+
+          }
+          rainbowFirstPixelHue += 3;
+          rainbowFirstPixelHue %= 180;
+        });
+  }
+
+  public CommandBase movingRainbow() {
+    return runOnce(
+        () -> {
+          for (int i = 0; i < 60; i++) {
+            Timer.delay(0.02);
+            rainbow();
+            System.out.println("Changing rainbow color");
+            led.setData(ledBuffer);
+          }
+        });
+  }
+
   public void periodic() {
     // This method will be called once per scheduler run
     led.setData(ledBuffer);

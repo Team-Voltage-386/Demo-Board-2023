@@ -9,8 +9,10 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -27,7 +29,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(
+  XboxController m_driverController = new XboxController(
       OperatorConstants.kDriverControllerPort);
 
   /**
@@ -60,10 +62,13 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_driverController.a().onTrue(m_ledSubsystem.setAll("purple"));
-    m_driverController.x().onTrue(m_ledSubsystem.setAll("yellow"));
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kA).onTrue(m_ledSubsystem.setAllYellow());
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kB).onTrue(m_ledSubsystem.movingRainbow());
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kB).onFalse(m_ledSubsystem.commandRainbow());
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kX).onTrue(m_ledSubsystem.twoColorToggle());
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kY).onTrue(m_ledSubsystem.commandRainbow());
   }
 
   /**
