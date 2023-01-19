@@ -77,7 +77,7 @@ public class RobotContainer {
     // new JoystickButton(m_driverController,
     // Constants.OperatorConstants.kX).onTrue(m_LEDSubsystem.setPurple(0));
     new JoystickButton(m_driverController, Constants.OperatorConstants.kX)
-        .onTrue(m_LEDSubsystem.rainbow());
+        .whileTrue(m_LEDSubsystem.rainbow());
 
         new JoystickButton(m_driverController, Constants.OperatorConstants.kY)
         .onTrue(m_LEDSubsystem.setAllBlue());

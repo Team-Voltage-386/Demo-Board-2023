@@ -38,8 +38,9 @@ public class rainbowLEDsCommand extends CommandBase {
   public void execute() {
     
     //TBD!!!!!  How do I call the method in the LEDSubsystem.rainbow?????
-    //m_ledsubsystem.run(m_ledsubsystem.)
-    
+    //m_ledsubsystem.runOnce(m_ledsubsystem:)
+    //m_ledsubsystem.????
+
     // Increase by to make the rainbow "move"
     m_rainbowFirstPixelHue += 3;
     // Check bounds
