@@ -27,7 +27,7 @@ package frc.robot;
 public final class Constants {
 
   public static final int kLEDPort = 4;
-  public static final int kLEDLength = 30;
+  public static final int kLEDLength = 60;
   public static final int kLimitSwitchPort = 0;
   public static final int kPushButton = 2;
   public static final int kOGSparkPort = 3;

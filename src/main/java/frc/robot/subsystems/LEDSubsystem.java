@@ -39,14 +39,14 @@ public class LEDSubsystem extends SubsystemBase {
   public CommandBase setAllBlue() {
     return runOnce(
         () -> {
-          for (int i = 0; i < ledBuffer.getLength() - 1; i++) {
+          for (int i = 0; i < ledBuffer.getLength(); i++) {
             ledBuffer.setRGB(i, 0, 0, 255);
           }
         });
   }
 
   public CommandBase rainbow() {
-    return runOnce(
+    return run(
         () -> {
 
           // For every pixel
