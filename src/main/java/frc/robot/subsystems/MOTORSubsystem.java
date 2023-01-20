@@ -12,18 +12,13 @@ public class MOTORSubsystem extends SubsystemBase{
 
     private CANSparkMax motor1 = new CANSparkMax(1, MotorType.kBrushless);
 
-    public MOTORSubsystem()
-    {
-
-    }
+    public MOTORSubsystem() {}
     
-    public void stopMotor1()
-    {
+    public void stopMotor1() {
         motor1.set(0);
     }
 
-    public void setPower1(double v)
-    {
+    public void setPower1(double v) {
         motor1.set(v);
     }
 
@@ -31,8 +26,6 @@ public class MOTORSubsystem extends SubsystemBase{
     public void periodic() {
         updateWidgets();
     }
-
-
 
 
     private final GenericEntry mot1Enc = Shuffleboard.getTab("main").add("mot 1 enc", 0).withPosition(1,1).withSize(1,1).getEntry();
