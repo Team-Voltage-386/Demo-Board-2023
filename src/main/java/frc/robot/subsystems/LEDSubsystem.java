@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -144,6 +145,7 @@ public class LEDSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     led.setData(ledBuffer);
+    SmartDashboard.putNumber("rainbowFirstPixelHue", m_rainbowFirstPixelHue);
 
   }
 }

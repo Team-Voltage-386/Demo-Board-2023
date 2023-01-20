@@ -74,12 +74,17 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Constants.OperatorConstants.kB)
         .onFalse(m_motorSubsystem.stopSparkMotor());
 
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kA)
+        .whileTrue(m_motorSubsystem.startSparkMaxMotor());
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kA)
+        .onFalse(m_motorSubsystem.stopSparkMaxMotor());
+
     // new JoystickButton(m_driverController,
     // Constants.OperatorConstants.kX).onTrue(m_LEDSubsystem.setPurple(0));
     new JoystickButton(m_driverController, Constants.OperatorConstants.kX)
         .whileTrue(m_LEDSubsystem.rainbow());
 
-        new JoystickButton(m_driverController, Constants.OperatorConstants.kY)
+    new JoystickButton(m_driverController, Constants.OperatorConstants.kY)
         .onTrue(m_LEDSubsystem.setAllBlue());
 
     // TBD

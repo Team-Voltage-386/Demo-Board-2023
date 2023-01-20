@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MotorSubsystem extends SubsystemBase {
 
@@ -75,8 +76,29 @@ public class MotorSubsystem extends SubsystemBase {
       m_sparkController.set(0);
   }
 
+  public CommandBase startSparkMaxMotor() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return runOnce(
+        () -> {
+          /* one-time action goes here */
+          m_sparkMaxController.set(0.5);
+        });
+  }
+
+  public CommandBase stopSparkMaxMotor() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return runOnce(
+        () -> {
+          /* one-time action goes here */
+          m_sparkMaxController.set(0);
+        });
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("recent spark value", m_sparkController.get() );
   }
 }
