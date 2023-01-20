@@ -25,35 +25,42 @@ public class PneumaticsSubsystem extends SubsystemBase{
     private Compressor pcmCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
 
-/*
-    private pcmCompressor.enableDigital();
-
-    private pcmCompressor.disable();
-
-    private boolean enabled = pcmCompressor.enabled();
-    private boolean pressureSwitch = pcmCompressor.getPressureSwitchValue();
-    private double current = pcmCompressor.getCompressorCurrent();
-*/
     public PneumaticsSubsystem() {
         System.out.println(pcmCompressor.isEnabled());
         testSolenoid.set(Value.kOff);
-        
     }  
 
-    public void pistonForward(boolean b){
-        if(b) testSolenoid.set(Value.kForward);
+    public void pistonForward(){
+        testSolenoid.set(Value.kForward);
         pistonExtended = true;
     }
 
-    public void pistonReverse(boolean b){
-        if(b) testSolenoid.set(Value.kReverse);
+    public void pistonReverse(){
+        testSolenoid.set(Value.kReverse);
         pistonExtended = false;
     }
 
-    public void pistonToggle(boolean b){
-        if(b){
-            if(pistonExtended) testSolenoid.set(Value.kReverse);
-            else testSolenoid.set(Value.kForward);
-        }
+    public void pistonToggle(){
+        //if(pistonExtended) testSolenoid.set(Value.kReverse); 
+        //else testSolenoid.set(Value.kForward);
+        testSolenoid.toggle();
+        pistonExtended = !pistonExtended;
+    }
+
+    /**pistonButton(boolean b) makes the piston extend and stay extended while the button is held down. when the button is released, the piston will retract.
+     * this method must be called twice.
+     *<hr>
+     * the first call must be:
+     * if(kController.getRawButtonPressed(kButton)) piston.pistonButton(true);
+     *<hr>
+     * the second must be:
+     * if(kController.getRawButtonReleased(kButton)) piston.pistonButton(false);
+     *<hr>
+     * pistonButton is written this way (instead of just using a while loop) to stop the piston from running pistonForward() 50 times a second.
+     * @param b
+     */
+    public void pistonButton(boolean b){
+         if(b) pistonForward();
+         else pistonReverse();
     }
 }
