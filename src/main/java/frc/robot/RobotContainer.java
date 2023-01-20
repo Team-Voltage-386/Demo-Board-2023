@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.Controller1;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -28,6 +29,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+
+  private final Controller1 cont1Command = new Controller1(m_ledSubsystem);
+
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   XboxController m_driverController = new XboxController(
       OperatorConstants.kDriverControllerPort);
@@ -55,20 +60,11 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+  }
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    new JoystickButton(m_driverController, Constants.OperatorConstants.kA).onTrue(m_ledSubsystem.setAllYellow());
-    new JoystickButton(m_driverController, Constants.OperatorConstants.kB).onTrue(m_ledSubsystem.movingRainbow());
-    new JoystickButton(m_driverController, Constants.OperatorConstants.kB).onFalse(m_ledSubsystem.commandRainbow());
-    new JoystickButton(m_driverController, Constants.OperatorConstants.kX).onTrue(m_ledSubsystem.twoColorToggle());
-    new JoystickButton(m_driverController, Constants.OperatorConstants.kY).onTrue(m_ledSubsystem.commandRainbow());
+  public Command getTeleCommand() {
+    return cont1Command;
   }
 
   /**
