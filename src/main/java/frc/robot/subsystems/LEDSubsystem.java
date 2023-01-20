@@ -24,8 +24,8 @@ public class LEDSubsystem extends SubsystemBase {
 
   public LEDSubsystem() {
     led.setLength(kLEDLength);
-    setAllWhite();
     led.setData(ledBuffer);
+    allOff();
     led.start();
   }
 
@@ -44,9 +44,15 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
-  public void setAllWhite() {
+  public void allWhite() {
     for (int i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 255, 255);
+    }
+  }
+
+  public void allOff() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 0,0,0);
     }
   }
 
