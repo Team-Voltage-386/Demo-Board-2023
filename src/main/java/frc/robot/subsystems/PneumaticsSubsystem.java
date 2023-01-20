@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PneumaticsSubsystem extends SubsystemBase{
 
+    private boolean pistonExtended = false;
+
     private PneumaticsControlModule pcm = new PneumaticsControlModule();
 
     private DoubleSolenoid testSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 3);
@@ -40,9 +42,18 @@ public class PneumaticsSubsystem extends SubsystemBase{
 
     public void pistonForward(boolean b){
         if(b) testSolenoid.set(Value.kForward);
+        pistonExtended = true;
     }
 
     public void pistonReverse(boolean b){
         if(b) testSolenoid.set(Value.kReverse);
+        pistonExtended = false;
+    }
+
+    public void pistonToggle(boolean b){
+        if(b){
+            if(pistonExtended) testSolenoid.set(Value.kReverse);
+            else testSolenoid.set(Value.kForward);
+        }
     }
 }
