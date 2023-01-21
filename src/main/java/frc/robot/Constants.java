@@ -23,8 +23,10 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  * wherever the
  * constants are needed, to reduce verbosity.
  */
+
 public final class Constants {
   public static class OperatorConstants {
+    public static final Joystick kcont1 = new Joystick(0);
 
     public static final int kLimitSwitchPort = 0;
     public static final int kPushButton = 2;
