@@ -56,9 +56,14 @@ public class Controller1 extends CommandBase {
         if (dio.getButtonState()) {
             led.allRed();
         }
-
         if (dio.getLimitSwitchState()) {
             led.allRed();
+        }
+        if (kcont1.getRawButtonPressed(kRightBumper)) {
+            motors.setPower3();
+        }
+        if (kcont1.getRawButtonPressed(kLeftBumper)) {
+            motors.stopMotor3();
         }
     }
 
