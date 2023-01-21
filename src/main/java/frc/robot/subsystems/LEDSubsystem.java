@@ -56,6 +56,12 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
+  public void allRed() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 255, 0, 0);
+    }
+  }
+
   public CommandBase setAllYellow() {
     return runOnce(
         () -> {

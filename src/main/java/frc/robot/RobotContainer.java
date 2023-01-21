@@ -12,11 +12,13 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.MotorSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.TalonSRXSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.DIOSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -33,8 +35,11 @@ public class RobotContainer {
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
   private final MotorSubsystem m_motors = new MotorSubsystem();
   private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
+  private final TalonSRXSubsystem m_talonSubsystem = new TalonSRXSubsystem();
+  private final DIOSubsystem m_dioSubsystem = new DIOSubsystem();
 
-  private final Controller1 cont1Command = new Controller1(m_ledSubsystem, m_motors, m_pneumaticsSubsystem);
+  private final Controller1 cont1Command = new Controller1(m_ledSubsystem, m_motors, m_pneumaticsSubsystem,
+      m_talonSubsystem, m_dioSubsystem);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   XboxController m_driverController = new XboxController(
       OperatorConstants.kDriverControllerPort);
