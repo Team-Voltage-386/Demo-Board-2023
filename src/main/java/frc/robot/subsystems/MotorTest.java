@@ -22,9 +22,13 @@ public class MotorTest extends SubsystemBase{
 
     public void setDrivePower1(double v)
     {
-        if(v>0.1||v<-0.1)
+        if(v>0.5||v<-0.5)
         {
             motor1.set(v);
+        }
+        if (!(v>0.5||v<-0.5))
+        {
+            driveMotorStop();
         }
     }
 

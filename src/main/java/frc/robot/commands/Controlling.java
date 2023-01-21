@@ -18,4 +18,12 @@ public class Controlling extends CommandBase {
     public void execute() {
         motors.setDrivePower1(kcont1.getRawAxis(kRightVertical));
     }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {}
 }
