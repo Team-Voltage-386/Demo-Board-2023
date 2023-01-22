@@ -24,6 +24,7 @@ public final class Constants {
   public static class OperatorConstants {
     
   public static final Joystick kcont1 =  new Joystick(0);
+  public static final int kLEDPort = 4;
 
     public static final int kLimitSwitchPort = 0;
     public static final int kPushButton = 2;
