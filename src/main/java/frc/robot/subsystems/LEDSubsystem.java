@@ -148,4 +148,13 @@ public class LEDSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("rainbowFirstPixelHue", m_rainbowFirstPixelHue);
 
   }
+
+public void allOff() {
+}
+
+public void allPurple() {
+}
+
+public void allYellow() {
+}
 }

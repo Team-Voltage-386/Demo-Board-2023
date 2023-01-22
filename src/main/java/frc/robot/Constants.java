@@ -9,8 +9,11 @@ package frc.robot;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.math.controller.PIDController;
 // import edu.wpi.first.wpilibj.I2C;
-// import edu.wpi.first.wpilibj.Joystick;
+
 // import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -25,6 +28,15 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // private final CommandXboxController m_driverController = new
+  // CommandXboxController(Constants.kDriverControllerPort);
+
+  // The driver's controller
+  // public XboxController m_driverController = new
+  // XboxController(Constants.kDriverControllerPort);
+  public static final Joystick kcont1 = new Joystick(0);
 
   public static final int kLEDPort = 4;
   public static final int kLEDLength = 60;

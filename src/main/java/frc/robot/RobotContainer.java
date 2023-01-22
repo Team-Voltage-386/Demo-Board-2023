@@ -4,16 +4,19 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+import static frc.robot.Constants.*;
 import frc.robot.commands.Autos;
+import frc.robot.commands.Controller1;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.MotorSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-//import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -31,14 +34,9 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final MotorSubsystem m_motorSubsystem = new MotorSubsystem();
   private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  // private final CommandXboxController m_driverController = new
-  // CommandXboxController(
-  // Constants.kDriverControllerPort);
-
-  // The driver's controller
-  XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
+  private final PneumaticsSubsystem m_PneumaticsSubsystem = new PneumaticsSubsystem();
+  private final Controller1 cont1Command = new Controller1(m_LEDSubsystem, m_PneumaticsSubsystem);
+  public XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -91,6 +89,10 @@ public class RobotContainer {
     // make a button to start the rainbow command when pressed (whileTrue)
     // does releasing the button stop the command?
 
+  }
+
+  public Command getTeleCommand() {
+    return cont1Command;
   }
 
   /**
