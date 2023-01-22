@@ -32,21 +32,11 @@ public class LED_Controlls extends CommandBase
     @Override
     public void execute() 
     {
+        led.allGreen();
         int LEDMethod=0;
         double LastButtonPress=-2.0;
         double LastSwitchPress=-2.0;
-        if ((!getLimitSwitchState())&&isOff==false&&(LastSwitchPress-(Timer.getFPGATimestamp()))>0.5)
-        {
-            LastButtonPress=Timer.getFPGATimestamp();
-            led.allOff();
-            isOff=true;
-        }
-        if (!getButtonState()&&(LastButtonPress-(Timer.getFPGATimestamp()))>0.5)
-        {
-            LastButtonPress=Timer.getFPGATimestamp();
-            LEDMethod++;
-            LEDMethod=LEDMethod%10;
-        }
+        isOff=false;
         if (!isOff&&LEDMethod==0)
         {
             led.allGreen();

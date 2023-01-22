@@ -66,9 +66,10 @@ public class RobotContainer {
   private void configureBindings() {
   }
 
-
+//cont1Command is for motors
   public Command getTeleCommand() {
-    return cont1Command;
+    //return cont1Command;
+    return cont2Command;
   }
 
   /**

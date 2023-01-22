@@ -19,7 +19,7 @@ public class LED_Test
     {
         led.setLength(kLEDLength);
         led.setData(ledBuffer);
-        allOff();
+        allBlue();
         led.start(); 
     }
 
