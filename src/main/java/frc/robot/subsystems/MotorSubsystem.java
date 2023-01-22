@@ -7,13 +7,14 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class MotorSubsystem extends SubsystemBase {
 
     private CANSparkMax motor1 = new CANSparkMax(1, MotorType.kBrushless);
     private Spark motor3 = new Spark(3);
+    Servo testServo = new Servo(0);
 
     public MotorSubsystem() {
     }
@@ -37,6 +38,10 @@ public class MotorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         updateWidgets();
+    }
+
+    public void setServoPos(double v) {
+        testServo.set(v);
     }
 
     private final GenericEntry mot1Enc = Shuffleboard.getTab("main").add("mot 1 enc", 0).withPosition(1, 1)

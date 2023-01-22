@@ -41,6 +41,8 @@ public class Controller1 extends CommandBase {
 
         talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));
 
+        motors.setServoPos(kcont1.getRawAxis(kRightTrigger));
+
         if (kcont1.getRawButtonPressed(kA))
             piston.pistonForward();
         if (kcont1.getRawButtonPressed(kB))
@@ -65,6 +67,7 @@ public class Controller1 extends CommandBase {
         if (kcont1.getRawButtonPressed(kLeftBumper)) {
             motors.stopMotor3();
         }
+
     }
 
     @Override
