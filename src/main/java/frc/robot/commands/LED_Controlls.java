@@ -9,6 +9,9 @@ import static frc.robot.Constants.OperatorConstants.*;
 
 public class LED_Controlls extends CommandBase 
 {
+    private int LEDMethod=0;
+    private double LastButtonPress=-2.0;
+    private double LastSwitchPress=-2.0;
     private DigitalInput button= new DigitalInput(2);
     private DigitalInput Switch = new DigitalInput(0);
     private final LED_Test led;
@@ -32,13 +35,11 @@ public class LED_Controlls extends CommandBase
     @Override
     public void execute() 
     {
-        int LEDMethod=0;
-        double LastButtonPress=-2.0;
-        double LastSwitchPress=-2.0;
         if(!getLimitSwitchState()&&(Timer.getFPGATimestamp()-LastSwitchPress)>0.5)
         {
             LEDMethod++;
             LEDMethod=LEDMethod%10;
+            LastSwitchPress=Timer.getFPGATimestamp();
         }
         if(!getButtonState()&&(Timer.getFPGATimestamp()-LastButtonPress)>0.5&&isOff==true)
         {
@@ -81,13 +82,9 @@ public class LED_Controlls extends CommandBase
         }
         if (!isOff&&LEDMethod==8)
         {
-            led.allGold();
-        }
-        if (!isOff&&LEDMethod==9)
-        {
             led.allMulti();
         }
-        if (!isOff&&LEDMethod==10)
+        if (!isOff&&LEDMethod==9)
         {
             led.allSiezure();
         }

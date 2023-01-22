@@ -167,7 +167,7 @@ public class LED_Test extends SubsystemBase
             }
             if (z==9)
             {
-                ledBuffer.setRGB(i,151,153,155);
+                ledBuffer.setRGB(i,0,153,155);
             }
             z++;
         }
@@ -175,8 +175,7 @@ public class LED_Test extends SubsystemBase
 
     public void allSiezure() 
     {
-
-        int z=((int) Timer.getFPGATimestamp())%10;
+        int z=((int)Timer.getFPGATimestamp());
         for (int i = 0; i < ledBuffer.getLength(); i++) 
         {
             z=z%10;
