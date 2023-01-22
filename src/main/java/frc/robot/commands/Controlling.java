@@ -15,7 +15,8 @@ public class Controlling extends CommandBase {
 
 
     @Override
-    public void execute() {
+    public void execute() 
+    {
         motors.setDrivePower1(kcont1.getRawAxis(kRightVertical));
         motors.setDrivePower2(kcont1.getRawAxis(kLeftVertical));
     }

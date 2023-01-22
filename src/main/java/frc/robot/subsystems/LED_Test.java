@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class LED_Test 
+public class LED_Test extends SubsystemBase
 {
     private static final int kLEDLength = 60;
 
@@ -19,7 +19,7 @@ public class LED_Test
     {
         led.setLength(kLEDLength);
         led.setData(ledBuffer);
-        allBlue();
+        allOff();
         led.start(); 
     }
 
