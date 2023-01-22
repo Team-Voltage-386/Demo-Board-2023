@@ -176,10 +176,10 @@ public class LED_Test
     public void allSiezure() 
     {
 
-        int z=0;
+        int z=((int) Timer.getFPGATimestamp())%10;
         for (int i = 0; i < ledBuffer.getLength(); i++) 
         {
-            z=((int) Timer.getFPGATimestamp());
+            z=z%10;
             if (z==0)
             {
                 ledBuffer.setRGB(i,255,255,255);
