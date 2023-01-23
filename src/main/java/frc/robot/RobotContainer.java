@@ -58,39 +58,42 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    // One option for running commands based on buttons:
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // new Trigger(m_motorSubsystem::ifButtonPressed).onTrue(new
     // MotorCommand(m_motorSubsystem));
 
+    // Another option for running commands basedon buttons:
     // Schedule `startSparkMotor` when the Xbox controller's B button is
     // pressed, cancelling on release.
     // m_driverController.b().whileTrue(m_motorSubsystem.startSparkMotor());
     // m_driverController.b().onFalse(m_motorSubsystem.stopSparkMotor());
 
+    // While B is held, the motor will run. It'll stop when B is released
     new JoystickButton(m_driverController, Constants.OperatorConstants.kB)
         .whileTrue(m_motorSubsystem.startSparkMotor());
     new JoystickButton(m_driverController, Constants.OperatorConstants.kB)
         .onFalse(m_motorSubsystem.stopSparkMotor());
 
+    // While A is held, the motor will run. It'll stop when A is released
     new JoystickButton(m_driverController, Constants.OperatorConstants.kA)
         .whileTrue(m_motorSubsystem.startSparkMaxMotor());
     new JoystickButton(m_driverController, Constants.OperatorConstants.kA)
         .onFalse(m_motorSubsystem.stopSparkMaxMotor());
 
-    // new JoystickButton(m_driverController,
-    // Constants.OperatorConstants.kX).onTrue(m_LEDSubsystem.setPurple(0));
+    // While X is held, the LEDs will do a moving rainbow
     new JoystickButton(m_driverController, Constants.OperatorConstants.kX)
         .whileTrue(m_LEDSubsystem.rainbow());
 
+    // When Y is pressed, change the LEDs to blue - once.
     new JoystickButton(m_driverController, Constants.OperatorConstants.kY)
         .onTrue(m_LEDSubsystem.setAllBlue());
-
-    // TBD
-    // make a button to start the rainbow command when pressed (whileTrue)
-    // does releasing the button stop the command?
-
   }
 
+  /**
+   * the TeleCommand will get scheduled in Robot.teleopInit.
+   * Therefore the execute portion of this command will run as soon as Teleop starts
+   */
   public Command getTeleCommand() {
     return cont1Command;
   }
