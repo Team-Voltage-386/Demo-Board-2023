@@ -29,6 +29,10 @@ public class LEDSubsystem extends SubsystemBase {
     led.start();
   }
 
+  public void setOneGreen(int index) {
+    ledBuffer.setRGB(index, 0, 255, 0);
+  }
+
   public CommandBase setAllPurple() {
     return runOnce(
         () -> {

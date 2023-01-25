@@ -16,6 +16,7 @@ public class Controller1 extends CommandBase {
     private final TalonSRXSubsystem talonMotors;
     private final DIOSubsystem dio;
     public boolean isPurple = false;
+    int ultraDistance;
 
     public Controller1(LEDSubsystem LED, MotorSubsystem MOTORS, PneumaticsSubsystem PISTON,
             TalonSRXSubsystem TALONMOTORS, DIOSubsystem DIO) {
@@ -68,6 +69,17 @@ public class Controller1 extends CommandBase {
             motors.stopMotor3();
         }
 
+        if (dio.getUltraDistanceInch() > 60) {
+            ultraDistance = 60;
+        } else {
+            ultraDistance = dio.getUltraDistanceInch();
+        }
+
+        System.out.println(ultraDistance);
+
+        for (int i = 0; i < (60 - ultraDistance); i++) {
+            led.setOneGreen(i);
+        }
     }
 
     @Override
