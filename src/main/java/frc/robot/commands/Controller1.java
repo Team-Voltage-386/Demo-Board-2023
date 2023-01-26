@@ -37,6 +37,7 @@ public class Controller1 extends CommandBase {
         if(kcont1.getRawButtonPressed(kB)) piston.pistonReverse();
         if(kcont1.getRawButtonPressed(kY)) piston.pistonToggle();
 
+        //(read pistonButton java doc)
         //pistonButton call - YOU MUST WRITE IT LIKE THIS:
         if(kcont1.getRawButtonPressed(kX)) piston.pistonButton(true);
         if(kcont1.getRawButtonReleased(kX)) piston.pistonButton(false);
