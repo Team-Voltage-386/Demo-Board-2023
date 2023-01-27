@@ -31,9 +31,8 @@ public class DIOSubsystem extends SubsystemBase {
     }
 
     public int getUltraDistanceInch() {
-        System.out.println(ultraSon.getRangeInches());
+        // System.out.println(ultraSon.getRangeInches());
         int dist = (int) ultraSon.getRangeInches();
-        System.out.println(dist);
         return dist;
     }
 

@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  */
 
 public final class Constants {
+
   public static class OperatorConstants {
     public static final Joystick kcont1 = new Joystick(0);
 
@@ -41,6 +42,10 @@ public final class Constants {
     public static final int SolenoidportBackward = 4;
     public static final int kDriverControllerPort = 0;
     public static final int kManipulatorControllerPort = 0;
+
+    // DIO
+    public static final int kHall1 = 4;
+    public static final int kHall2 = 5;
 
     public static final int kLeftVertical = 1;
     public static final int kRightVertical = 5;

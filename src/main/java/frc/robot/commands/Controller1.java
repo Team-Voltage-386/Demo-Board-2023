@@ -40,7 +40,10 @@ public class Controller1 extends CommandBase {
 
         motors.setPower1(kcont1.getRawAxis(kRightVertical));
 
-        talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));
+        if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
+            talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));
+        } else
+            talonMotors.setPower2(0);
 
         motors.setServoPos(kcont1.getRawAxis(kRightTrigger));
 
@@ -61,25 +64,29 @@ public class Controller1 extends CommandBase {
         }
         if (dio.getLimitSwitchState()) {
             led.allRed();
+            talonMotors.resetPLGEncoder();
         }
-        if (kcont1.getRawButtonPressed(kRightBumper)) {
-            motors.setPower3();
-        }
-        if (kcont1.getRawButtonPressed(kLeftBumper)) {
-            motors.stopMotor3();
-        }
-
-        if (dio.getUltraDistanceInch() > 60) {
-            ultraDistance = 60;
-        } else {
-            ultraDistance = dio.getUltraDistanceInch();
-        }
-
-        System.out.println(ultraDistance);
-
-        for (int i = 0; i < (60 - ultraDistance); i++) {
-            led.setOneGreen(i);
-        }
+        /*
+         * if (kcont1.getRawButtonPressed(kRightBumper)) {
+         * motors.setPower3();
+         * }
+         * if (kcont1.getRawButtonPressed(kLeftBumper)) {
+         * motors.stopMotor3();
+         * }
+         */
+        /*
+         * if (dio.getUltraDistanceInch() > 60) {
+         * ultraDistance = 60;
+         * } else {
+         * ultraDistance = dio.getUltraDistanceInch();
+         * }
+         * 
+         * System.out.println(ultraDistance);
+         * 
+         * for (int i = 0; i < (60 - ultraDistance); i++) {
+         * led.setOneGreen(i);
+         * }
+         */
     }
 
     @Override
