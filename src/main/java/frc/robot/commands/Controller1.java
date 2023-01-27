@@ -38,7 +38,9 @@ public class Controller1 extends CommandBase {
         else
             led.allOff();
 
-        motors.setPower1(kcont1.getRawAxis(kRightVertical));
+        if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
+            motors.setPower1(kcont1.getRawAxis(kRightVertical));
+        }
 
         if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
             talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));

@@ -17,6 +17,7 @@ public class MotorSubsystem extends SubsystemBase {
     Servo testServo = new Servo(0);
 
     public MotorSubsystem() {
+        motor1.getEncoder().setPosition(0);
     }
 
     public void stopMotor1() {
