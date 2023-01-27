@@ -45,7 +45,7 @@ public class MotorSubsystem extends SubsystemBase {
         testServo.set(v);
     }
 
-    private final GenericEntry mot1Enc = Shuffleboard.getTab("main").add("mot 1 enc", 0).withPosition(1, 1)
+    private final GenericEntry mot1Enc = Shuffleboard.getTab("main").add("Spark Max Motor", 0).withPosition(1, 1)
             .withSize(1, 1).getEntry();
 
     private void updateWidgets() {

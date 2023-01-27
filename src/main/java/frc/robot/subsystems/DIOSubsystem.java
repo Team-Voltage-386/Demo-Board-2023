@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DIOSubsystem extends SubsystemBase {
@@ -10,8 +11,8 @@ public class DIOSubsystem extends SubsystemBase {
     Ultrasonic ultraSon = new Ultrasonic(8, 9);
 
     public DIOSubsystem() {
-        ultraSon.ping();
         ultraSon.setAutomaticMode(true);
+        ultraSon.setEnabled(true);
     }
 
     public boolean getButtonState() {
@@ -31,13 +32,13 @@ public class DIOSubsystem extends SubsystemBase {
     }
 
     public int getUltraDistanceInch() {
-        // System.out.println(ultraSon.getRangeInches());
-        int dist = (int) ultraSon.getRangeInches();
-        return dist;
+        return (int) ultraSon.getRangeInches();
     }
 
     @Override
     public void periodic() {
-        ultraSon.ping();
+        SmartDashboard.putBoolean("Ultrasonic Range Valid", ultraSon.isRangeValid());
+        SmartDashboard.putNumber("Ultrasonic Distance", ultraSon.getRangeInches());
+        SmartDashboard.putBoolean("Ultrasonic Enabled", ultraSon.isEnabled());
     }
 }
