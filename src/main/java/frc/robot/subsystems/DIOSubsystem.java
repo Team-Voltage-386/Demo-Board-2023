@@ -14,9 +14,12 @@ public class DIOSubsystem extends SubsystemBase {
     Ultrasonic ultraSon = new Ultrasonic(8, 9);
     WPI_PigeonIMU gyro = new WPI_PigeonIMU(12);
 
+    double[] ypr = new double[3];
+
     public DIOSubsystem() {
         ultraSon.setAutomaticMode(true);
         ultraSon.setEnabled(true);
+        gyro.reset();
     }
 
     public boolean getButtonState() {
@@ -39,15 +42,25 @@ public class DIOSubsystem extends SubsystemBase {
         return (int) ultraSon.getRangeInches();
     }
 
-    public double gyroHeading() {
+    public double getGyroAngle() {
         return gyro.getAngle();
+    }
+
+    public double[] getGyroYPR() {
+        gyro.getYawPitchRoll(ypr);
+        return ypr;
     }
 
     @Override
     public void periodic() {
+        getGyroYPR();
         SmartDashboard.putBoolean("Ultrasonic Range Valid", ultraSon.isRangeValid());
         SmartDashboard.putNumber("Ultrasonic Distance", ultraSon.getRangeInches());
         SmartDashboard.putBoolean("Ultrasonic Enabled", ultraSon.isEnabled());
         SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+
+        SmartDashboard.putNumber("Gyro Yaw", ypr[0]);
+        SmartDashboard.putNumber("Gyro Pitch", ypr[1]);
+        SmartDashboard.putNumber("Gyro Roll", ypr[2]);
     }
 }

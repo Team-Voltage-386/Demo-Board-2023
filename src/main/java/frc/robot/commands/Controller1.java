@@ -17,7 +17,7 @@ public class Controller1 extends CommandBase {
     private final DIOSubsystem dio;
     public boolean isPurple = false;
     int ultraDistance;
-
+    int gyroAngle;
     public Controller1(LEDSubsystem LED, MotorSubsystem MOTORS, PneumaticsSubsystem PISTON,
             TalonSRXSubsystem TALONMOTORS, DIOSubsystem DIO) {
         led = LED;
@@ -84,6 +84,21 @@ public class Controller1 extends CommandBase {
         // for (int i = 0; i < (60 - ultraDistance); i++) {
         //     led.setOneGreen(i);
         // }
+        gyroAngle = (int)dio.getGyroAngle();
+
+        if (gyroAngle > 0) {
+            if (gyroAngle > 90) gyroAngle = 90;
+            for (int i = 29; i < 29 + (int)(gyroAngle / 3); i++) {
+                led.setOneGreen(i);
+            }
+        }
+
+        if (gyroAngle < 0) {
+            if (gyroAngle < -90) gyroAngle = -90;
+            for (int i = 29; i > 29 + (int)(gyroAngle / 3); i--) {
+                led.setOneGreen(i);
+            }
+        }
     }
 
     @Override
