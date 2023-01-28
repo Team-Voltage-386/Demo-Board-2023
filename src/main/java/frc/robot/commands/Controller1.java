@@ -84,7 +84,7 @@ public class Controller1 extends CommandBase {
         // for (int i = 0; i < (60 - ultraDistance); i++) {
         //     led.setOneGreen(i);
         // }
-
+        led.setColorWithAngle(dio.gyroHeading());
         
     }
     
