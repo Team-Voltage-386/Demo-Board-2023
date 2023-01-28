@@ -9,6 +9,7 @@ import static frc.robot.Constants.OperatorConstants.*;
 
 public class LED_Controlls extends CommandBase 
 {
+    private int NumButtonsPressed = 0;
     private int LEDMethod=0;
     private double LastButtonPress=-2.0;
     private double LastSwitchPress=-2.0;
@@ -35,22 +36,38 @@ public class LED_Controlls extends CommandBase
     @Override
     public void execute() 
     {
-        if(!getLimitSwitchState()&&(Timer.getFPGATimestamp()-LastSwitchPress)>0.5)
+        if(!getLimitSwitchState()&&(Timer.getFPGATimestamp()-LastSwitchPress)>0.3)
         {
             LEDMethod++;
             LEDMethod=LEDMethod%10;
             LastSwitchPress=Timer.getFPGATimestamp();
         }
-        if(!getButtonState()&&(Timer.getFPGATimestamp()-LastButtonPress)>0.5&&isOff==true)
+        if(!getButtonState()&&(Timer.getFPGATimestamp()-LastButtonPress)>0.3)
         {
+            NumButtonsPressed++;
+            NumButtonsPressed = NumButtonsPressed % 3;
             LastButtonPress=Timer.getFPGATimestamp();
-            isOff=false;
         }
-        if(!getButtonState()&&(Timer.getFPGATimestamp()-LastButtonPress)>0.5&&isOff==false)
+        if(NumButtonsPressed==0)
         {
-            LastButtonPress=Timer.getFPGATimestamp();
             led.allOff();
             isOff=true;
+        }
+        if(NumButtonsPressed==2)
+        {
+            isOff=false;
+        }
+        if(NumButtonsPressed==3)
+        {
+            if (((int) Timer.getFPGATimestamp()%2)==1)
+            {
+                led.allOff();
+                isOff=true;
+            }
+            else
+            {
+                isOff=false;
+            }
         }
         if (!isOff&&LEDMethod==0)
         {

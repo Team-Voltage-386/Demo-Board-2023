@@ -67,7 +67,7 @@ public class RobotContainer {
   }
 
 //cont1Command is for motors
-  public Command getTeleCommand() {
+  public Command getTeleCommand1() {
     //return cont1Command;
     return cont2Command;
   }

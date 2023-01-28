@@ -175,7 +175,7 @@ public class LED_Test extends SubsystemBase
 
     public void allSiezure() 
     {
-        int z=((int)Timer.getFPGATimestamp());
+        int z=((int)(Timer.getFPGATimestamp()*30));
         for (int i = 0; i < ledBuffer.getLength(); i++) 
         {
             z=z%10;
