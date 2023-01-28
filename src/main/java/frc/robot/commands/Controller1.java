@@ -18,6 +18,10 @@ public class Controller1 extends CommandBase {
     public boolean isPurple = false;
     int ultraDistance;
     int gyroAngle;
+    int gyroPitch;
+    double[] gyroYPR;
+    int gyroPitchLEDStart;
+
     public Controller1(LEDSubsystem LED, MotorSubsystem MOTORS, PneumaticsSubsystem PISTON,
             TalonSRXSubsystem TALONMOTORS, DIOSubsystem DIO) {
         led = LED;
@@ -77,28 +81,33 @@ public class Controller1 extends CommandBase {
         }
 
         // if (dio.getUltraDistanceInch() > 60) {
-        //     ultraDistance = 60;
+        // ultraDistance = 60;
         // } else {
-        //     ultraDistance = dio.getUltraDistanceInch();
+        // ultraDistance = dio.getUltraDistanceInch();
         // }
         // for (int i = 0; i < (60 - ultraDistance); i++) {
-        //     led.setOneGreen(i);
+        // led.setOneGreen(i);
         // }
-        gyroAngle = (int)dio.getGyroAngle();
 
-        if (gyroAngle > 0) {
-            if (gyroAngle > 90) gyroAngle = 90;
-            for (int i = 29; i < 29 + (int)(gyroAngle / 3); i++) {
-                led.setOneGreen(i);
+        gyroYPR = dio.getGyroYPR();
+        gyroPitch = (int) gyroYPR[2];
+
+        int gyroPitchLEDStart = 29 + gyroPitch;
+        if (gyroPitchLEDStart > 59)
+            gyroPitchLEDStart = 30;
+        if (gyroPitchLEDStart < 0)
+            gyroPitchLEDStart = 0;
+
+        if (gyroPitchLEDStart <= 29) {
+            for (int i = 0; i < 8; i++) {
+                led.setOneGreen(gyroPitchLEDStart + 4 - i);
+            }
+        } else {
+            for (int i = 0; i < 8; i++) {
+                led.setOneGreen(gyroPitchLEDStart - 4 + i);
             }
         }
 
-        if (gyroAngle < 0) {
-            if (gyroAngle < -90) gyroAngle = -90;
-            for (int i = 29; i > 29 + (int)(gyroAngle / 3); i--) {
-                led.setOneGreen(i);
-            }
-        }
     }
 
     @Override
