@@ -65,5 +65,8 @@ public final class Constants {
     public static final int kLeftJoystickPressed = 9;
     public static final int kRightJoystickPressed = 10;
 
+    //Math
+    public static final double Pi = 3.14159265358;
+
   }
 }

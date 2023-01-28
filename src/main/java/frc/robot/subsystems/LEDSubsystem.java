@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.OperatorConstants.*;
 
 public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LEDSubsytem. */
@@ -132,9 +133,25 @@ public class LEDSubsystem extends SubsystemBase {
         });
   }
 
+  /**
+   * inputs angle from gyro and makes the LEDs do pretty colors using a 3phase sin wave
+   * @param a
+   */
+  public void setColorWithAngle(double angle) {
+    int a = (int)angle;
+    if(a > 360 || a < -360)  a = a%360;
+    //logic converting degrees to radians and multiplying by 255
+    int r = Math.abs((int)(255*Math.sin(((a*Pi)/180))));
+    int g = Math.abs((int)(255*Math.sin((Pi/2) + ((a*Pi)/180))));
+    int b = Math.abs((int)(255*Math.sin((Pi + ((a*Pi)/180)))));
+    //setting RGB values
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, r, g, b);
+    }
+  }
+
   public void periodic() {
     // This method will be called once per scheduler run
     led.setData(ledBuffer);
-
   }
 }

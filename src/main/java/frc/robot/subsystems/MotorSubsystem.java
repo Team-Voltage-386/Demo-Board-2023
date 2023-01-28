@@ -47,7 +47,7 @@ public class MotorSubsystem extends SubsystemBase {
 
     private final GenericEntry mot1Enc = Shuffleboard.getTab("main").add("Spark Max Motor", 0).withPosition(1, 1)
             .withSize(1, 1).getEntry();
-
+            
     private void updateWidgets() {
         mot1Enc.setDouble(motor1.getEncoder().getPosition());
     }
