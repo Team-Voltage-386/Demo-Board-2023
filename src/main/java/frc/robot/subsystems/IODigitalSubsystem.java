@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class IODigitalSubsystem extends SubsystemBase
@@ -71,6 +72,14 @@ public class IODigitalSubsystem extends SubsystemBase
         gyroRoll=gyro.getRoll();
         gyroPitch=gyro.getPitch();
         gyroAngle=gyro.getAngle();
-        
+
+        SmartDashboard.putBoolean("Ultrasonic Range Valid", ultraSon.isRangeValid());
+        SmartDashboard.putNumber("Ultrasonic Distance", getUltraDistance());
+        SmartDashboard.putBoolean("Ultrasonic Enabled", ultraSon.isEnabled());
+        SmartDashboard.putNumber("Gyro Angle", gyroAngle);
+
+        SmartDashboard.putNumber("Gyro Yaw", gyroYaw);
+        SmartDashboard.putNumber("Gyro Pitch", gyroPitch);
+        SmartDashboard.putNumber("Gyro Roll", gyroRoll);
     }
 }

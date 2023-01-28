@@ -13,8 +13,8 @@ public class DriverController extends CommandBase
     private final IODigitalSubsystem IO;
     private final MotorTest motors;
 
-    private boolean isOff = true, LEDMode=true;
-    private int NumButtonsPressed = 0, LEDMethod=0;
+    private boolean isOff = true;
+    private int NumButtonsPressed = 0, LEDMethod=0, LEDMode=0;
     private double LastButtonPress=-2.0, LastSwitchPress=-2.0, lastX=-2.0;
 
     public DriverController(MotorTest MOTORS, LED_Test LED, IODigitalSubsystem InOut) 
@@ -31,16 +31,25 @@ public class DriverController extends CommandBase
         double currentTime = Timer.getFPGATimestamp();
         if (kcont1.getRawButton(kX) && (currentTime-lastX)>0.3)
         {   
-            LEDMode=(!LEDMode);
+            LEDMode++;
             lastX=currentTime;
+            LEDMode=LEDMode%4;
         }
-        if (LEDMode)
+        if (LEDMode==0)
         {
             LED_Controlls();
         }
-        else
+        if (LEDMode==1)
         {
             DistanceLED();
+        }
+        if (LEDMode==2)
+        {
+            RollLED();
+        }
+        if (LEDMode==3)
+        {
+            PitchLED();
         }
         Motor_Controlls();
     }
@@ -53,22 +62,7 @@ public class DriverController extends CommandBase
 
     @Override
     public void end(boolean interrupted) {}
-
-    private void DistanceLED()
-    {
-        int start = ((int) IO.getGyroPitch())%60;
-        int end = start+5;
-        if (end>60)
-        {
-            end=60;
-        }
-        if (start>60)
-        {
-            start=60;
-        }
-        led.setRed(start, end);
-    }
-
+    
     private void Motor_Controlls ()
     {
         motors.setDrivePower1(kcont1.getRawAxis(kRightVertical));
@@ -81,6 +75,65 @@ public class DriverController extends CommandBase
         else
         {
             motors.setDrivePower4(0);
+        }
+    }
+
+    private void DistanceLED()
+    {
+        int start = (int) (IO.getUltraDistance());
+        int end = start+5;
+        if (end>=60)
+        {
+            end=59;
+        }
+        if (start>=60)
+        {
+            start=59;
+        }
+        led.setRed(start,end);
+    }
+
+    private void RollLED()
+    {
+        int start = (int) (-(IO.getGyroRoll())+4)+27;
+        int end = start+5;
+        if (end>=60)
+        {
+            end=59;
+        }
+        if (start>=60)
+        {
+            start=59;
+        }
+        if (start==27)
+        {
+            led.setGreen(start, end);
+        }
+        else
+        {
+            led.setRed(start, end);
+        }
+    }
+
+    private void PitchLED()
+    {
+        int start = (int) (-(IO.getGyroPitch())-1)+27;
+        int end = start+5;
+        if (end>=60)
+        {
+            end=59;
+        }
+        if (start>=60)
+        {
+            start=59;
+        }
+        if (start==27)
+        {
+            led.setGreen(start, end);
+        }
+        else
+        {
+            led.setRed(start, end);
         }
     }
 
