@@ -76,15 +76,14 @@ public class Controller1 extends CommandBase {
             motors.stopMotor3();
         }
 
-        if (dio.getUltraDistanceInch() > 60) {
-            ultraDistance = 60;
-        } else {
-            ultraDistance = dio.getUltraDistanceInch();
-        }
-
-        for (int i = 0; i < (60 - ultraDistance); i++) {
-            led.setOneGreen(i);
-        }
+        // if (dio.getUltraDistanceInch() > 60) {
+        //     ultraDistance = 60;
+        // } else {
+        //     ultraDistance = dio.getUltraDistanceInch();
+        // }
+        // for (int i = 0; i < (60 - ultraDistance); i++) {
+        //     led.setOneGreen(i);
+        // }
     }
 
     @Override
