@@ -45,6 +45,15 @@ public class DriverController extends CommandBase
     {
         motors.setDrivePower1(kcont1.getRawAxis(kRightVertical));
         motors.setDrivePower2(kcont1.getRawAxis(kLeftVertical));
+        motors.setDrivePower3(kcont1.getRawAxis(kLeftHorizontal));
+        if (kcont1.getRawButton(kA))
+        {
+            motors.setDrivePower4(1);
+        }
+        else
+        {
+            motors.setDrivePower4(0);
+        }
     }
 
     private void LED_Controlls()
