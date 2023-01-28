@@ -142,8 +142,8 @@ public class LEDSubsystem extends SubsystemBase {
     if(a > 360 || a < -360)  a = a%360;
     //logic converting degrees to radians and multiplying by 255
     int r = Math.abs((int)(255*Math.sin(((a*Pi)/180))));
-    int g = Math.abs((int)(255*Math.sin((Pi/2) + ((a*Pi)/180))));
-    int b = Math.abs((int)(255*Math.sin((Pi + ((a*Pi)/180)))));
+    int g = Math.abs((int)(255*Math.sin(((2*Pi)/3) + ((a*Pi)/180))));
+    int b = Math.abs((int)(255*Math.sin((((4*Pi)/3) + ((a*Pi)/180)))));
     //setting RGB values
     for (int i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, r, g, b);
