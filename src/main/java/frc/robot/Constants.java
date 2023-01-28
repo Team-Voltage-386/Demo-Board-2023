@@ -33,7 +33,8 @@ public final class Constants
     public static final int CANTalonSRX = 2;
     public static final int SparkMax = 1;
     public static final int PCM = 0;
-    public static final int UltraDIOPort = 4;  // ultrasonic 
+    public static final int UltraPingDIOPort = 8;  // ultrasonic Ping port
+    public static final int UltraEchoDIOPort = 9;  // ultrasonic Echo port
     public static final int Servo = 0;
     public static final int kIMUid = 12;  // pigeon
     public static final int SolenoidportForward = 3;
