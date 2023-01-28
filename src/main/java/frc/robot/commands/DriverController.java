@@ -1,48 +1,64 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.MotorTest;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.IODigitalSubsystem;
 import frc.robot.subsystems.LED_Test;
-
 import static frc.robot.Constants.OperatorConstants.*;
 
-public class LED_Controlls extends CommandBase 
+public class DriverController extends CommandBase 
 {
-    private int NumButtonsPressed = 0;
-    private int LEDMethod=0;
-    private double LastButtonPress=-2.0;
-    private double LastSwitchPress=-2.0;
-    private DigitalInput button= new DigitalInput(2);
-    private DigitalInput Switch = new DigitalInput(0);
     private final LED_Test led;
-    private boolean isOff=true;
+    private final IODigitalSubsystem IO;
+    private final MotorTest motors;
 
-    public boolean getButtonState() 
-    {
-        return button.get();
-    }
+    private boolean isOff = true;
+    private int NumButtonsPressed = 0, LEDMethod=0;
+    private double LastButtonPress=-2.0, LastSwitchPress=-2.0;
 
-    public boolean getLimitSwitchState() 
+    public DriverController(MotorTest MOTORS, LED_Test LED, IODigitalSubsystem InOut) 
     {
-        return Switch.get();
-    }
-
-    public LED_Controlls(LED_Test LED) 
-    {
+        motors = MOTORS;
         led=LED;
+        IO=InOut;
     }
+
 
     @Override
     public void execute() 
     {
-        if(!getLimitSwitchState()&&(Timer.getFPGATimestamp()-LastSwitchPress)>0.3)
+        LED_Controlls();
+        Motor_Controlls();
+    }
+
+    @Override
+    public boolean isFinished() 
+    {
+        return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {}
+
+    private void Motor_Controlls ()
+    {
+        motors.setDrivePower1(kcont1.getRawAxis(kRightVertical));
+        motors.setDrivePower2(kcont1.getRawAxis(kLeftVertical));
+    }
+
+    private void LED_Controlls()
+    {
+        double curentTime = Timer.getFPGATimestamp();
+        boolean switchState = (!IO.getLimitSwitchState()), buttonState = (!IO.getButtonState());
+
+        if(switchState && (curentTime-LastSwitchPress)>0.3)
         {
             LEDMethod++;
             LEDMethod=LEDMethod%10;
             LastSwitchPress=Timer.getFPGATimestamp();
         }
-        if(!getButtonState()&&(Timer.getFPGATimestamp()-LastButtonPress)>0.3)
+        if(buttonState && (curentTime-LastButtonPress)>0.3)
         {
             NumButtonsPressed++;
             NumButtonsPressed = NumButtonsPressed % 3;
@@ -106,13 +122,4 @@ public class LED_Controlls extends CommandBase
             led.allSiezure();
         }
     }
-
-    @Override
-    public boolean isFinished() 
-    {
-        return false;
-    }
-
-    @Override
-    public void end(boolean interrupted) {}
 }
