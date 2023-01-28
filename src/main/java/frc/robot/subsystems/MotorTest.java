@@ -23,6 +23,7 @@ public class MotorTest extends SubsystemBase{
     private CANSparkMax motor1 = new CANSparkMax(1, MotorType.kBrushless);
     private Spark motor2 = new Spark(Constants.OperatorConstants.kOGSparkPort);
     private Servo motor4 = new Servo(Constants.OperatorConstants.Servo);
+    
 
     public MotorTest ()
     {}

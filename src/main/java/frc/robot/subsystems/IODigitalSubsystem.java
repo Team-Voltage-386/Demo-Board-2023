@@ -14,7 +14,7 @@ public class IODigitalSubsystem extends SubsystemBase
     private DigitalInput button= new DigitalInput(Constants.OperatorConstants.kPushButton);
     private DigitalInput Switch = new DigitalInput(Constants.OperatorConstants.kLimitSwitchPort);
     public boolean buttonState, limitState;
-    public double ultraDist, gyroYaw, gyroRoll, gyroPitch;
+    public double ultraDist, gyroYaw, gyroRoll, gyroPitch, gyroAngle;
 
     Ultrasonic ultraSon = new Ultrasonic(Constants.OperatorConstants.UltraPingDIOPort, Constants.OperatorConstants.UltraEchoDIOPort);
     WPI_PigeonIMU gyro = new WPI_PigeonIMU(Constants.OperatorConstants.kIMUid);
@@ -36,6 +36,11 @@ public class IODigitalSubsystem extends SubsystemBase
         return limitState;
     }
     
+    public double getGyroAngle ()
+    {
+        return gyroAngle;
+    }
+
     public double getUltraDistance ()
     {
         return ultraDist;
@@ -65,5 +70,7 @@ public class IODigitalSubsystem extends SubsystemBase
         gyroYaw=gyro.getYaw();
         gyroRoll=gyro.getRoll();
         gyroPitch=gyro.getPitch();
+        gyroAngle=gyro.getAngle();
+        
     }
 }

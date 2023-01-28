@@ -13,9 +13,9 @@ public class DriverController extends CommandBase
     private final IODigitalSubsystem IO;
     private final MotorTest motors;
 
-    private boolean isOff = true;
+    private boolean isOff = true, LEDMode=true;
     private int NumButtonsPressed = 0, LEDMethod=0;
-    private double LastButtonPress=-2.0, LastSwitchPress=-2.0;
+    private double LastButtonPress=-2.0, LastSwitchPress=-2.0, lastX=-2.0;
 
     public DriverController(MotorTest MOTORS, LED_Test LED, IODigitalSubsystem InOut) 
     {
@@ -28,7 +28,20 @@ public class DriverController extends CommandBase
     @Override
     public void execute() 
     {
-        LED_Controlls();
+        double currentTime = Timer.getFPGATimestamp();
+        if (kcont1.getRawButton(kX) && (currentTime-lastX)>0.3)
+        {   
+            LEDMode=(!LEDMode);
+            lastX=currentTime;
+        }
+        if (LEDMode)
+        {
+            LED_Controlls();
+        }
+        else
+        {
+            DistanceLED();
+        }
         Motor_Controlls();
     }
 
@@ -40,6 +53,21 @@ public class DriverController extends CommandBase
 
     @Override
     public void end(boolean interrupted) {}
+
+    private void DistanceLED()
+    {
+        int start = ((int) IO.getGyroPitch())%60;
+        int end = start+5;
+        if (end>60)
+        {
+            end=60;
+        }
+        if (start>60)
+        {
+            start=60;
+        }
+        led.setRed(start, end);
+    }
 
     private void Motor_Controlls ()
     {
@@ -58,16 +86,16 @@ public class DriverController extends CommandBase
 
     private void LED_Controlls()
     {
-        double curentTime = Timer.getFPGATimestamp();
+        double currentTime = Timer.getFPGATimestamp();
         boolean switchState = (!IO.getLimitSwitchState()), buttonState = (!IO.getButtonState());
 
-        if(switchState && (curentTime-LastSwitchPress)>0.3)
+        if(switchState && (currentTime-LastSwitchPress)>0.3)
         {
             LEDMethod++;
             LEDMethod=LEDMethod%10;
             LastSwitchPress=Timer.getFPGATimestamp();
         }
-        if(buttonState && (curentTime-LastButtonPress)>0.3)
+        if(buttonState && (currentTime-LastButtonPress)>0.3)
         {
             NumButtonsPressed++;
             NumButtonsPressed = NumButtonsPressed % 3;
