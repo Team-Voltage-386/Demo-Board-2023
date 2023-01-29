@@ -5,6 +5,8 @@ import frc.robot.subsystems.MotorTest;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.IODigitalSubsystem;
 import frc.robot.subsystems.LED_Test;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static frc.robot.Constants.OperatorConstants.*;
 
 public class DriverController extends CommandBase 
@@ -13,15 +15,16 @@ public class DriverController extends CommandBase
     private final IODigitalSubsystem IO;
     private final MotorTest motors;
 
-    private boolean isOff = true;
+    private boolean isOff = true, buttonPressed;
     private int NumButtonsPressed = 0, LEDMethod=0, LEDMode=0;
-    private double LastButtonPress=-2.0, LastSwitchPress=-2.0, lastX=-2.0;
+    private double LastSwitchPress=-2.0, lastX=-2.0;
 
     public DriverController(MotorTest MOTORS, LED_Test LED, IODigitalSubsystem InOut) 
     {
         motors = MOTORS;
         led=LED;
         IO=InOut;
+        buttonPressed = IO.getButtonState();
     }
 
 
@@ -33,7 +36,7 @@ public class DriverController extends CommandBase
         {   
             LEDMode++;
             lastX=currentTime;
-            LEDMode=LEDMode%4;
+            LEDMode=LEDMode%5;
         }
         if (LEDMode==0)
         {
@@ -50,6 +53,10 @@ public class DriverController extends CommandBase
         if (LEDMode==3)
         {
             PitchLED();
+        }
+        if (LEDMode==4)
+        {
+            RPLED();
         }
         Motor_Controlls();
     }
@@ -95,7 +102,7 @@ public class DriverController extends CommandBase
 
     private void RollLED()
     {
-        int start = (int) (-(IO.getGyroRoll())+4)+27;
+        int start = (int) -(IO.getGyroRoll()-4.5) + 27;
         int end = start+5;
         if (end>=60)
         {
@@ -117,7 +124,7 @@ public class DriverController extends CommandBase
 
     private void PitchLED()
     {
-        int start = (int) (-(IO.getGyroPitch())-1)+27;
+        int start = (int) -(IO.getGyroPitch()+1.5) + 27;
         int end = start+5;
         if (end>=60)
         {
@@ -137,6 +144,21 @@ public class DriverController extends CommandBase
         }
     }
 
+    private void RPLED()
+    {
+        int roll = (int) (IO.getGyroRoll()-4.5);
+        int pitch = (int) (IO.getGyroPitch()+1.5);
+        if (roll<0)
+        {
+            roll=-roll;
+        }
+        if (pitch<0)
+        {
+            pitch=-pitch;
+        }
+        led.setAllColor(roll%45*255, pitch%45*255, 0);
+    }
+
     private void LED_Controlls()
     {
         double currentTime = Timer.getFPGATimestamp();
@@ -148,11 +170,11 @@ public class DriverController extends CommandBase
             LEDMethod=LEDMethod%10;
             LastSwitchPress=Timer.getFPGATimestamp();
         }
-        if(buttonState && (currentTime-LastButtonPress)>0.3)
+        if(buttonState != buttonPressed)
         {
+            buttonPressed = !buttonPressed;
             NumButtonsPressed++;
             NumButtonsPressed = NumButtonsPressed % 3;
-            LastButtonPress=Timer.getFPGATimestamp();
         }
         if(NumButtonsPressed==0)
         {
@@ -163,7 +185,7 @@ public class DriverController extends CommandBase
         {
             isOff=false;
         }
-        if(NumButtonsPressed==3)
+        if(NumButtonsPressed==1)
         {
             if (((int) Timer.getFPGATimestamp()%2)==1)
             {

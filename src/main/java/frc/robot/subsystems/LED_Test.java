@@ -252,9 +252,17 @@ public class LED_Test extends SubsystemBase
         }
     }
 
-    public void periodic() {
+    public void periodic() 
+    {
         // This method will be called once per scheduler run
         led.setData(ledBuffer);
-    
+    }
+
+    public void setAllColor (int red, int green, int blue)
+    {
+        for (int i = 0; i < ledBuffer.getLength(); i++) 
+        {
+            ledBuffer.setRGB(i, red, green, blue);
+        }
     }
 }
