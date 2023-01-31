@@ -1,5 +1,10 @@
 package frc.robot.commands;
 
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.MotorSubsystem;
@@ -21,6 +26,9 @@ public class Controller1 extends CommandBase {
     int gyroPitch;
     double[] gyroYPR;
     int gyroPitchLEDStart;
+    BooleanLogEntry myBooleanLog;
+    DoubleLogEntry myDoubleLog;
+    StringLogEntry myStringLog;
 
     public Controller1(LEDSubsystem LED, MotorSubsystem MOTORS, PneumaticsSubsystem PISTON,
             TalonSRXSubsystem TALONMOTORS, DIOSubsystem DIO) {
@@ -30,25 +38,41 @@ public class Controller1 extends CommandBase {
         talonMotors = TALONMOTORS;
         dio = DIO;
         led.allOff();
+
+    }
+
+    @Override
+    public void initialize() {
+        DataLog log = DataLogManager.getLog();
+        myBooleanLog = new BooleanLogEntry(log, "/my/boolean");
+        myDoubleLog = new DoubleLogEntry(log, "/my/double");
+        myStringLog = new StringLogEntry(log, "/my/string");
     }
 
     @Override
     public void execute() {
         double v = kcont1.getRawAxis(kLeftVertical);
-        if (v > 0.4)
+        if (v > 0.4) {
             led.allPurple();
-        else if (v < -0.4)
+            myStringLog.append("set LEDs all purple");
+        } else if (v < -0.4) {
             led.allYellow();
-        else
+            myStringLog.append("set LEDs all yellow");
+        } else {
             led.allOff();
+        }
 
         if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
             motors.setPower1(kcont1.getRawAxis(kRightVertical));
+            myStringLog.append("Power1 setting:");
+            myDoubleLog.append(kcont1.getRawAxis(kRightVertical));
         } else
             motors.setPower1(0);
 
         if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
             talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));
+            myStringLog.append("Power2 setting:");
+            myDoubleLog.append(kcont1.getRawAxis(kRightHorizontal));
         } else
             talonMotors.setPower2(0);
 
