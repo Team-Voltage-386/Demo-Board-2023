@@ -1,24 +1,28 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+//DIO are plugged in to ports on the left side of the RoboRIO
 public class DIOSubsystem extends SubsystemBase {
+
     DigitalInput button = new DigitalInput(2);
     DigitalInput limitSwitch = new DigitalInput(0);
     Ultrasonic ultraSon = new Ultrasonic(8, 9);
+    // Gyro is not really a DIO device. 12 is the gyro's CAN ID
     WPI_PigeonIMU gyro = new WPI_PigeonIMU(12);
-
+    // The gyro has a method to fill in a list with yaw, pitch, roll
     double[] ypr = new double[3];
 
     public DIOSubsystem() {
+        // These two lines of code are necessary to set up the ultrasonic sensor
         ultraSon.setAutomaticMode(true);
         ultraSon.setEnabled(true);
+
         gyro.reset();
     }
 
@@ -42,6 +46,7 @@ public class DIOSubsystem extends SubsystemBase {
         return (int) ultraSon.getRangeInches();
     }
 
+    // This returns the gyro yaw
     public double getGyroAngle() {
         return gyro.getAngle();
     }
@@ -54,11 +59,11 @@ public class DIOSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         getGyroYPR();
+
         SmartDashboard.putBoolean("Ultrasonic Range Valid", ultraSon.isRangeValid());
         SmartDashboard.putNumber("Ultrasonic Distance", ultraSon.getRangeInches());
         SmartDashboard.putBoolean("Ultrasonic Enabled", ultraSon.isEnabled());
         SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
-
         SmartDashboard.putNumber("Gyro Yaw", ypr[0]);
         SmartDashboard.putNumber("Gyro Pitch", ypr[1]);
         SmartDashboard.putNumber("Gyro Roll", ypr[2]);

@@ -6,20 +6,23 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LEDSubsytem. */
+  // This is the pwm port (right side of the roboRIO)
   private static final int kLEDPort = 4;
   private static final int kLEDLength = 60;
+
   private String currentColor = "yellow";
+
   private boolean isYellow = false;
 
   AddressableLED led = new AddressableLED(kLEDPort);
 
+  // The buffer sends the new light values, actually changing the LEDs
   AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(kLEDLength);
 
   public LEDSubsystem() {
@@ -33,6 +36,8 @@ public class LEDSubsystem extends SubsystemBase {
     ledBuffer.setRGB(index, 0, 255, 0);
   }
 
+  // This is an alternative way to set up a command, and the button logic is in
+  // robotContainer
   public CommandBase setAllPurple() {
     return runOnce(
         () -> {
@@ -66,34 +71,10 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
-  public CommandBase setAllYellow() {
-    return runOnce(
-        () -> {
-          for (int i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 255, 255, 0);
-          }
-        });
-  }
-
   public void allYellow() {
     for (int i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 255, 0);
     }
-  }
-
-  public CommandBase twoColorToggle() {
-    return runOnce(
-        () -> {
-          if (isYellow == true) {
-            allPurple();
-            System.out.println("Setting all purple");
-            isYellow = false;
-          } else {
-            allYellow();
-            System.out.println("Setting all yellow");
-            isYellow = true;
-          }
-        });
   }
 
   private int rainbowFirstPixelHue = 1;
@@ -107,31 +88,7 @@ public class LEDSubsystem extends SubsystemBase {
     rainbowFirstPixelHue %= 180;
   }
 
-  public CommandBase commandRainbow() {
-    return runOnce(
-        () -> {
-          for (var i = 0; i < ledBuffer.getLength(); i++) {
-            final var hue = (rainbowFirstPixelHue + (i * 180 / ledBuffer.getLength())) % 180;
-            ledBuffer.setHSV(i, hue, 255, 128);
-
-          }
-          rainbowFirstPixelHue += 3;
-          rainbowFirstPixelHue %= 180;
-        });
-  }
-
-  public CommandBase movingRainbow() {
-    return runOnce(
-        () -> {
-          for (int i = 0; i < 60; i++) {
-            Timer.delay(0.02);
-            rainbow();
-            System.out.println("Changing rainbow color");
-            led.setData(ledBuffer);
-          }
-        });
-  }
-
+  @Override
   public void periodic() {
     // This method will be called once per scheduler run
     led.setData(ledBuffer);
