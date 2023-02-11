@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TalonSRXSubsystem extends SubsystemBase {
     private TalonSRX motor2 = new TalonSRX(2);
-    Encoder plgEncoder = new Encoder(4, 5);
+    // Encoder plgEncoder = new Encoder(4, 5);
 
     public TalonSRXSubsystem() {
-        plgEncoder.reset();
-        plgEncoder.setDistancePerPulse(1 / 44.4);
+        // plgEncoder.reset();
+        // plgEncoder.setDistancePerPulse(1 / 44.4);
     }
 
     public void stopMotor2() {
@@ -25,16 +25,16 @@ public class TalonSRXSubsystem extends SubsystemBase {
     }
 
     public void resetPLGEncoder() {
-        plgEncoder.reset();
+        // plgEncoder.reset();
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Encoder Distance", plgEncoder.getDistance());
-        SmartDashboard.putNumber("Encoder Rate", plgEncoder.getRate());
-        SmartDashboard.putBoolean("Encoder is Stopped", plgEncoder.getStopped());
-        SmartDashboard.putBoolean("Encoder Direction", plgEncoder.getDirection());
-        SmartDashboard.putNumber("Encoder Raw Count", plgEncoder.getRaw());
+        // SmartDashboard.putNumber("Encoder Distance", plgEncoder.getDistance());
+        // SmartDashboard.putNumber("Encoder Rate", plgEncoder.getRate());
+        // SmartDashboard.putBoolean("Encoder is Stopped", plgEncoder.getStopped());
+        // SmartDashboard.putBoolean("Encoder Direction", plgEncoder.getDirection());
+        // SmartDashboard.putNumber("Encoder Raw Count", plgEncoder.getRaw());
     }
 
 }
