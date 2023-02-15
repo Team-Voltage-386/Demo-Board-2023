@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -36,6 +37,10 @@ public class MotorSubsystem extends SubsystemBase {
         motor3.set(0.5);
     }
 
+    public double getCurrent() {
+        return motor1.getOutputCurrent();
+    }
+
     @Override
     public void periodic() {
         updateWidgets();
@@ -47,9 +52,12 @@ public class MotorSubsystem extends SubsystemBase {
 
     private final GenericEntry mot1Enc = Shuffleboard.getTab("main").add("Spark Max Motor", 0).withPosition(1, 1)
             .withSize(1, 1).getEntry();
+    private final GenericEntry mot1CurrentOutput = Shuffleboard.getTab("main").add("Spark Current Output", 0)
+            .getEntry();
 
     private void updateWidgets() {
         mot1Enc.setDouble(motor1.getEncoder().getPosition());
+        mot1CurrentOutput.setDouble(getCurrent());
     }
 
 }

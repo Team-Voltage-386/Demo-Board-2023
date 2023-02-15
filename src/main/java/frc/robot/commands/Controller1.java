@@ -34,23 +34,33 @@ public class Controller1 extends CommandBase {
 
     @Override
     public void execute() {
-        double v = kcont1.getRawAxis(kLeftVertical);
-        if (v > 0.4)
+        // double v = kcont1.getRawAxis(kLeftVertical);
+        // if (v > 0.4)
+        // led.allPurple();
+        // else if (v < -0.4)
+        // led.allYellow();
+        // else
+        // led.allOff();
+
+        // double v = kcont1.getRawAxis(kLeftVertical);
+        // motors.setPower1(v);
+
+        motors.setPower1(0.1);
+        if (motors.getCurrent() > 1) {
             led.allPurple();
-        else if (v < -0.4)
-            led.allYellow();
-        else
-            led.allOff();
+        }
 
-        if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
-            motors.setPower1(kcont1.getRawAxis(kRightVertical));
-        } else
-            motors.setPower1(0);
+        // if (kcont1.getRawAxis(kRightHorizontal) < -0.2 ||
+        // kcont1.getRawAxis(kRightHorizontal) > 0.2) {
+        // motors.setPower1(kcont1.getRawAxis(kRightVertical));
+        // } else
+        // motors.setPower1(0);
 
-        if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
-            talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));
-        } else
-            talonMotors.setPower2(0);
+        // if (kcont1.getRawAxis(kRightHorizontal) < -0.2 ||
+        // kcont1.getRawAxis(kRightHorizontal) > 0.2) {
+        // talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));
+        // } else
+        // talonMotors.setPower2(0);
 
         motors.setServoPos(kcont1.getRawAxis(kRightTrigger));
 
