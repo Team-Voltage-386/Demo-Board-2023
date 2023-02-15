@@ -47,7 +47,8 @@ public class Controller1 extends CommandBase {
 
         motors.setPower1(0.1);
         if (motors.getCurrent() > 1) {
-            led.allPurple();
+            System.out.println("motor current is spiking");
+            led.allRed();
         }
 
         // if (kcont1.getRawAxis(kRightHorizontal) < -0.2 ||
