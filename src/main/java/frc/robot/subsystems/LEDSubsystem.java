@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.OperatorConstants.*;
 
 public class LEDSubsystem extends SubsystemBase {
-  /** Creates a new LEDSubsytem. */
+  /** Creates chargeIndex new LEDSubsytem. */
   private static final int kLEDPort = 4;
-  private static final int kLEDLength = 60;
+  private static final int kLEDLength = 66;
   private String currentColor = "yellow";
   private boolean isYellow = false;
 
@@ -65,6 +65,13 @@ public class LEDSubsystem extends SubsystemBase {
     for (int i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 0, 0);
     }
+  }
+
+  public void redStrobe() {
+    if(((int)(Timer.getMatchTime()*10)%2) == 1)
+      allRed();
+    else
+      allOff();
   }
 
   public CommandBase setAllYellow() {
@@ -134,21 +141,69 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   /**
-   * inputs angle from gyro and makes the LEDs do pretty colors using a 3phase sin wave
-   * @param a
+   * inputs angle from gyro and makes the LEDs do pretty colors using chargeIndex 3phase sin wave
+   * @param chargeIndex
    */
   public void setColorWithAngle(double angle) {
-    int a = (int)angle;
-    if(a > 360 || a < -360)  a = a%360;
+    int chargeIndex = (int)angle;
+    if(chargeIndex > 360 || chargeIndex < -360)  chargeIndex = chargeIndex%360;
     //logic converting degrees to radians and multiplying by 255
-    int r = Math.abs((int)(255*Math.pow(Math.cos(2*((a*Pi)/180)), 3)));
-    int g = Math.abs((int)(255*Math.pow(Math.cos(2*(Pi/3) + ((a*Pi)/180)), 3)));
-    int b = Math.abs((int)(255*Math.pow(Math.cos(2*(((2*Pi)/3) + ((a*Pi)/180))), 3)));
+    int r = Math.abs((int)(255*Math.pow(Math.cos(2*((chargeIndex*Pi)/180)), 3)));
+    int g = Math.abs((int)(255*Math.pow(Math.cos(2*(Pi/3) + ((chargeIndex*Pi)/180)), 3)));
+    int hasCharged = Math.abs((int)(255*Math.pow(Math.cos(2*(((2*Pi)/3) + ((chargeIndex*Pi)/180))), 3)));
     //setting RGB values
     for (int i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, r, g, b);
+      ledBuffer.setRGB(i, r, g, hasCharged);
     }
   }
+
+  public void setOneYellow(int index) {
+    ledBuffer.setRGB(index, 241, 245, 7);
+  }
+
+  public void setOneBlue(int index) {
+      ledBuffer.setRGB(index, 0, 0, 255);
+  }
+
+  double BYCycle = 0;
+  public void BlueYellow()
+    {
+      BYCycle += 0.1;
+        int chargeIndex = Math.abs((int)(5*Math.cos(BYCycle)))+1;
+        for(int i = 0; i < ledBuffer.getLength(); i++)
+        {
+            if(i%chargeIndex == 0) {
+                setOneBlue(i);
+            } else {
+                setOneYellow(i);
+            }
+        }
+        System.out.println(BYCycle + " " + chargeIndex);
+    }
+
+    public int getLEDBuffer() {
+      return ledBuffer.getLength();
+    }
+
+    int chargeIndex = 0;
+    boolean hasCharged = false;
+
+    public void chargeReady() {
+      chargeIndex = 0;
+      hasCharged = false;
+    }
+
+    public void chargeUP() {
+      if(chargeIndex < ledBuffer.getLength()/2 && hasCharged == false) {
+        setOneBlue(chargeIndex);
+        setOneBlue(ledBuffer.getLength()-1 - chargeIndex);
+      } else {
+        hasCharged = true;
+        chargeIndex = 0;
+      }
+      chargeIndex++;
+      System.out.println(chargeIndex + " " + hasCharged);
+    }
 
   public void periodic() {
     // This method will be called once per scheduler run

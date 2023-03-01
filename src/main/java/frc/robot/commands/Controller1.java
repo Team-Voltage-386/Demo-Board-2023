@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.MotorSubsystem;
@@ -26,55 +27,56 @@ public class Controller1 extends CommandBase {
         talonMotors = TALONMOTORS;
         dio = DIO;
         led.allOff();
+        led.chargeReady();
     }
 
     @Override
     public void execute() {
-        double v = kcont1.getRawAxis(kLeftVertical);
-        if (v > 0.4)
-            led.allPurple();
-        else if (v < -0.4)
-            led.allYellow();
-        else
-            led.allOff();
+        // double v = kcont1.getRawAxis(kLeftVertical);
+        // if (v > 0.4)
+        //     led.allPurple();
+        // else if (v < -0.4)
+        //     led.allYellow();
+        // else
+        //     led.allOff();
 
-        if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
-            motors.setPower1(kcont1.getRawAxis(kRightVertical));
-        } else
-            motors.setPower1(0);
+        // if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
+        //     motors.setPower1(kcont1.getRawAxis(kRightVertical));
+        // } else
+        //     motors.setPower1(0);
 
-        if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
-            talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));
-        } else
-            talonMotors.setPower2(0);
+        // if (kcont1.getRawAxis(kRightHorizontal) < -0.2 || kcont1.getRawAxis(kRightHorizontal) > 0.2) {
+        //     talonMotors.setPower2(kcont1.getRawAxis(kRightHorizontal));
+        // } else
+        //     talonMotors.setPower2(0);
 
-        motors.setServoPos(kcont1.getRawAxis(kRightTrigger));
+        // motors.setServoPos(kcont1.getRawAxis(kRightTrigger));
 
-        if (kcont1.getRawButtonPressed(kA))
-            piston.pistonForward();
-        if (kcont1.getRawButtonPressed(kB))
-            piston.pistonReverse();
-        if (kcont1.getRawButtonPressed(kY))
-            piston.pistonToggle();
+        // if (kcont1.getRawButtonPressed(kA))
+        //     piston.pistonForward();
+        // if (kcont1.getRawButtonPressed(kB))
+        //     piston.pistonReverse();
+        // if (kcont1.getRawButtonPressed(kY))
+        //     piston.pistonToggle();
 
-        if (kcont1.getRawButtonPressed(kX))
-            piston.pistonButton(true);
-        if (kcont1.getRawButtonReleased(kX))
-            piston.pistonButton(false);
+        // if (kcont1.getRawButtonPressed(kX))
+        //     piston.pistonButton(true);
+        // if (kcont1.getRawButtonReleased(kX))
+        //     piston.pistonButton(false);
 
-        if (dio.getButtonState()) {
-            led.allRed();
-        }
-        if (dio.getLimitSwitchState()) {
-            led.allRed();
-            talonMotors.resetPLGEncoder();
-        }
-        if (kcont1.getRawButtonPressed(kRightBumper)) {
-            motors.setPower3();
-        }
-        if (kcont1.getRawButtonPressed(kLeftBumper)) {
-            motors.stopMotor3();
-        }
+        // if (dio.getButtonState()) {
+        //     led.allRed();
+        // }
+        // if (dio.getLimitSwitchState()) {
+        //     led.allRed();
+        //     talonMotors.resetPLGEncoder();
+        // }
+        // if (kcont1.getRawButtonPressed(kRightBumper)) {
+        //     motors.setPower3();
+        // }
+        // if (kcont1.getRawButtonPressed(kLeftBumper)) {
+        //     motors.stopMotor3();
+        // }
 
         // if (dio.getUltraDistanceInch() > 60) {
         //     ultraDistance = 60;
@@ -84,8 +86,13 @@ public class Controller1 extends CommandBase {
         // for (int i = 0; i < (60 - ultraDistance); i++) {
         //     led.setOneGreen(i);
         // }
-        led.setColorWithAngle(dio.gyroHeading());
-        
+        //led.setColorWithAngle(dio.gyroHeading());
+        //led.BlueYellow();
+        //led.chargeUP();
+
+        if(Timer.getMatchTime() <= 125 && Timer.getMatchTime() >= 120) {
+            led.redStrobe();
+        }
     }
     
     @Override
