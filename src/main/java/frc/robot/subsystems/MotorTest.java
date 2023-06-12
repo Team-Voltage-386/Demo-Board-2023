@@ -5,6 +5,7 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -24,10 +25,28 @@ public class MotorTest extends SubsystemBase{
     private CANSparkMax motor1 = new CANSparkMax(1, MotorType.kBrushless);
     private Spark motor2 = new Spark(Constants.OperatorConstants.kOGSparkPort);
     private Servo motor4 = new Servo(Constants.OperatorConstants.Servo);
-    
+    private SparkMaxPIDController SparkPIDcontrols = motor1.getPIDController();
+    private double maxRPM = 5700;
 
     public MotorTest ()
-    {}
+    {
+        double kP = 1e-10; 
+        double kI = 0.1;
+        double kD = 0.0001; 
+        double kIz = 1; 
+        double kFF = 0.000015; 
+        double kMaxOutput = 1; 
+        double kMinOutput = -1;
+
+        SparkPIDcontrols.setP(kP);
+        SparkPIDcontrols.setI(kI);
+        SparkPIDcontrols.setD(kD);
+        SparkPIDcontrols.setIZone(kIz);
+        SparkPIDcontrols.setFF(kFF);
+        SparkPIDcontrols.setOutputRange(kMinOutput, kMaxOutput);
+    }
+
+    
 
     public void driveMotorStop1()
     {
@@ -51,13 +70,17 @@ public class MotorTest extends SubsystemBase{
 
     public void setDrivePower1(double v)
     {
+        //System.out.println(SparkPIDcontrols.getP());
         if(v>0.1||v<-0.1)
         {
-            motor1.set(v);
+            //motor1.set(v);
+            double setPoint = v*maxRPM;
+            SparkPIDcontrols.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
         }
         else
         {
             driveMotorStop1();
+            
         }
     }
 
