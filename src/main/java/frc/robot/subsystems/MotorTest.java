@@ -1,10 +1,11 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.Servo;
@@ -109,6 +110,6 @@ public class MotorTest extends SubsystemBase{
     
     private void updateWidgets() 
     {
-        mot1Enc.setDouble(motor1.getEncoder().getPosition());
+       mot1Enc.setDouble(motor1.getEncoder().getPosition());
     }
 } 
