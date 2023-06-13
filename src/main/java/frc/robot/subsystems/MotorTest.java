@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MotorTest extends SubsystemBase{
@@ -28,15 +29,31 @@ public class MotorTest extends SubsystemBase{
     private SparkMaxPIDController SparkPIDcontrols = motor1.getPIDController();
     private double maxRPM = 5700;
 
+    private double kP; 
+    private double kI;
+    private double kD; 
+    private double kIz; 
+    private double kFF; 
+    private double kMaxOutput; 
+    private double kMinOutput;
+
     public MotorTest ()
     {
-        double kP = 1e-10; 
-        double kI = 0.1;
-        double kD = 0.0001; 
-        double kIz = 1; 
-        double kFF = 0.000015; 
-        double kMaxOutput = 1; 
-        double kMinOutput = -1;
+        kP = 1e-10; 
+        kI = 0.1;
+        kD = 0.0001; 
+        kIz = 1; 
+        kFF = 0.000015; 
+        kMaxOutput = 1; 
+        kMinOutput = -1;
+
+        SmartDashboard.putNumber("P Value", kP);
+        SmartDashboard.putNumber("I Value", kI);
+        SmartDashboard.putNumber("D Value", kD);
+        SmartDashboard.putNumber("I Zone", kIz);
+        SmartDashboard.putNumber("Feed Forward", kFF);
+        SmartDashboard.putNumber("Max Output", kMaxOutput);
+        SmartDashboard.putNumber("Min Output", kMinOutput);
 
         SparkPIDcontrols.setP(kP);
         SparkPIDcontrols.setI(kI);
@@ -80,7 +97,6 @@ public class MotorTest extends SubsystemBase{
         else
         {
             driveMotorStop1();
-            
         }
     }
 
@@ -124,15 +140,51 @@ public class MotorTest extends SubsystemBase{
     public void periodic() 
     {
         updateWidgets();
+        updateTuning();
     }
 
 
 
 
     private final GenericEntry mot1Enc = Shuffleboard.getTab("main").add("mot 1 enc", 0).withPosition(1,1).withSize(1,1).getEntry();
-    
+
     private void updateWidgets() 
     {
        mot1Enc.setDouble(motor1.getEncoder().getPosition());
+    }
+
+    private void updateTuning() 
+    {
+        if (kP != SmartDashboard.getNumber("P Value", 0))
+        {
+            kP = SmartDashboard.getNumber("P Value", 0);
+            SparkPIDcontrols.setP(kP);
+        }
+        if (kI != SmartDashboard.getNumber("I Value", 0))
+        {
+            kI = SmartDashboard.getNumber("I Value", 0);
+            SparkPIDcontrols.setI(kI);
+        }
+        if (kD != SmartDashboard.getNumber("D Value", 0))
+        {
+            kD = SmartDashboard.getNumber("D Value", 0);
+            SparkPIDcontrols.setD(kD);
+        }
+        if (kIz != SmartDashboard.getNumber("I Zone", 0))
+        {
+            kIz = SmartDashboard.getNumber("I Zone", 0);
+            SparkPIDcontrols.setIZone(kIz);
+        }
+        if (kFF != SmartDashboard.getNumber("Feed Forward", 0))
+        {
+            kFF = SmartDashboard.getNumber("Feed Forward", 0);
+            SparkPIDcontrols.setFF(kFF);
+        }
+        if (kMaxOutput != SmartDashboard.getNumber("Max Output", 0) || kMinOutput != SmartDashboard.getNumber("Min Output", 0))
+        {
+            kMaxOutput = SmartDashboard.getNumber("Max Output", 0);
+            kMinOutput = SmartDashboard.getNumber("Min Output", 0);
+            SparkPIDcontrols.setOutputRange(kMinOutput, kMaxOutput);
+        }
     }
 } 
