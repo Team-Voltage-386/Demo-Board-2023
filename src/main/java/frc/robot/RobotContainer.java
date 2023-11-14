@@ -9,10 +9,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DriverController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.IODigitalSubsystem;
 import frc.robot.subsystems.MotorTest;
-import frc.robot.subsystems.LED_Test;
-import frc.robot.subsystems.IODigitalSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -32,10 +29,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final MotorTest m_motors = new MotorTest();
-  private final LED_Test m_ledSubsystem = new LED_Test();
-  private final IODigitalSubsystem m_IODigitalSubsystem = new IODigitalSubsystem();
 
-  private final DriverController cont1Command = new DriverController(m_motors, m_ledSubsystem, m_IODigitalSubsystem);
+  private final DriverController cont1Command = new DriverController(m_motors);
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
