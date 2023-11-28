@@ -40,7 +40,7 @@ public class DriverController extends CommandBase
     {
         if (kcont1.getRawButton(kA))
         {
-            motors.setRotation(1000);
+            motors.setRotation();
         }
         else
         {

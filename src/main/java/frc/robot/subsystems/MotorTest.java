@@ -22,6 +22,10 @@ public class MotorTest extends SubsystemBase{
     }
 
     
+    public void setRotation()
+    {
+        pidMotorControl.setReference(ControlType.kPosition);
+    }
 
     public void setRotation(double RotationTarget)
     {
@@ -31,6 +35,6 @@ public class MotorTest extends SubsystemBase{
     @Override
     public void periodic() 
     {
-        System.out.println(motor1Values.getPosition());
+        
     }
 } 
