@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 public class PID extends SubsystemBase
 {
@@ -32,7 +32,7 @@ public class PID extends SubsystemBase
     private SimpleWidget PValue, IValue, DValue, IZone, FeedForward, MaxOutput, MinOutput, MotorPos, MotorVel, MotorTarget;
 
     //The PID controller for the CanSparkMax motor
-    private SparkMaxPIDController SparkPIDcontrols;
+    private SparkPIDController SparkPIDcontrols;
 
     //Motor's encoder
     private RelativeEncoder MotorEncoder;
