@@ -1,40 +1,66 @@
 package frc.robot.subsystems;
 
-
-import frc.robot.PID;
-
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkBase.ControlType;
 
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MotorTest extends SubsystemBase{
 
-    private CANSparkMax motor1 = new CANSparkMax(12, MotorType.kBrushless);
-    private PID pidMotorControl = new PID("PID Values", motor1);
-    private RelativeEncoder motor1Values = motor1.getEncoder();
+    private CANSparkMax motorA = new CANSparkMax(12, MotorType.kBrushless);
+    private CANSparkMax motorB = new CANSparkMax(11, MotorType.kBrushless);
 
-    public MotorTest ()
-    {
-        
-    }
+    private double OldA=0, OldB=0;
+    private ShuffleboardTab motorTab;
 
-    
-    public void setRotation()
-    {
-        pidMotorControl.setReference(ControlType.kPosition);
-    }
+    private SimpleWidget MotorAShuffable, MotorBShuffable; 
 
-    public void setRotation(double RotationTarget)
+    public MotorTest()
     {
-        pidMotorControl.setReference(RotationTarget, ControlType.kPosition);
+        motorTab = Shuffleboard.getTab("Motor Controls");
+        MotorAShuffable = motorTab.add("Motor A Percent", 0);
+        MotorBShuffable = motorTab.add("Motor B Percent", 0);
     }
 
     @Override
     public void periodic() 
     {
-        
+        double A = MotorAShuffable.getEntry().getDouble(0);
+        double B = MotorBShuffable.getEntry().getDouble(0);
+
+        if (A>100)
+        {
+            A=100;
+        }
+        if (A<-100)
+        {
+            A=-100;
+        }
+
+        if (B>100)
+        {
+            B=100;
+        }
+        if (B<-100)
+        {
+            B=-100;
+        }
+
+        if (A!=OldA)
+        {
+
+            OldA=A;
+            motorA.set(OldA/100);
+        }
+        if (B!=OldB)
+        {
+            OldB=B;
+            motorB.set(OldB/100);
+        }
+
     }
 } 
