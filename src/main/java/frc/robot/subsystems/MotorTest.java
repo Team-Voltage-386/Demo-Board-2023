@@ -9,58 +9,92 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class MotorTest extends SubsystemBase{
+public class MotorTest extends SubsystemBase {
 
     private CANSparkMax motorA = new CANSparkMax(12, MotorType.kBrushless);
     private CANSparkMax motorB = new CANSparkMax(11, MotorType.kBrushless);
 
-    private double OldA=0, OldB=0;
+    private double oldA = 0, oldB = 0;
+    private boolean oldIsOn = false;
+    private double oldBothMotor = 0;
+    private boolean oldUseBothMotor;
+    private boolean oldInvertBothMotor;
     private ShuffleboardTab motorTab;
 
-    private SimpleWidget MotorAShuffable, MotorBShuffable; 
+    private SimpleWidget motorOnOff;
+    private SimpleWidget motorAShuffable, motorBShuffable;
+    private SimpleWidget bothMotorShuffable;
+    private SimpleWidget useBothMotor;
+    private SimpleWidget invertBothMotor;
 
-    public MotorTest()
-    {
+    public MotorTest() {
         motorTab = Shuffleboard.getTab("Motor Controls");
-        MotorAShuffable = motorTab.add("Motor A Percent", 0);
-        MotorBShuffable = motorTab.add("Motor B Percent", 0);
+        motorOnOff = motorTab.add("Are Motors On", false);
+        motorAShuffable = motorTab.add("Motor A Percent", 0);
+        motorBShuffable = motorTab.add("Motor B Percent", 0);
+        bothMotorShuffable = motorTab.add("Set Both Motors", 0);
+        useBothMotor = motorTab.add("Use Both Motor Setting", false);
+        invertBothMotor = motorTab.add("Invert Both Motor Setting", false);
     }
 
     @Override
-    public void periodic() 
-    {
-        double A = MotorAShuffable.getEntry().getDouble(0);
-        double B = MotorBShuffable.getEntry().getDouble(0);
+    public void periodic() {
+        oldUseBothMotor = useBothMotor.getEntry().getBoolean(false);
+        oldInvertBothMotor = invertBothMotor.getEntry().getBoolean(false);
 
-        if (A>100)
-        {
-            A=100;
-        }
-        if (A<-100)
-        {
-            A=-100;
+        oldBothMotor = bothMotorShuffable.getEntry().getDouble(0);
+        if (oldBothMotor > 100) {
+            oldBothMotor = 100;
+        } else if (oldBothMotor < 0) {
+            oldBothMotor = 0;
         }
 
-        if (B>100)
-        {
-            B=100;
-        }
-        if (B<-100)
-        {
-            B=-100;
+        double A, B;
+        if (oldUseBothMotor) {
+            if (oldInvertBothMotor) {
+                A = oldBothMotor;
+                B = -1 * oldBothMotor;
+            } else {
+                A = -1 * oldBothMotor;
+                B = oldBothMotor;
+            }
+        } else {
+            A = motorAShuffable.getEntry().getDouble(0);
+            B = motorBShuffable.getEntry().getDouble(0);
         }
 
-        if (A!=OldA)
-        {
-
-            OldA=A;
-            motorA.set(OldA/100);
+        if (A > 100) {
+            A = 100;
+        } else if (A < -100) {
+            A = -100;
         }
-        if (B!=OldB)
-        {
-            OldB=B;
-            motorB.set(OldB/100);
+
+        if (B > 100) {
+            B = 100;
+        } else if (B < -100) {
+            B = -100;
+        }
+
+        oldA = A;
+        oldB = B;
+
+        boolean isOn = motorOnOff.getEntry().getBoolean(false);
+
+        if (isOn) {
+            if (!oldIsOn) {
+                // Asked to turn on
+                oldIsOn = true;
+                motorA.set(oldA / 100);
+                motorB.set(oldB / 100);
+            }
+        } else {
+            if (oldIsOn) {
+                // Asked to turn off
+                oldIsOn = false;
+                motorA.set(0);
+                motorB.set(0);
+            }
         }
 
     }
-} 
+}
