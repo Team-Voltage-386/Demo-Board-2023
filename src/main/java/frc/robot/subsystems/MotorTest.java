@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -26,6 +28,8 @@ public class MotorTest extends SubsystemBase {
     private SimpleWidget bothMotorShuffable;
     private SimpleWidget useBothMotor;
     private SimpleWidget invertBothMotor;
+    private SimpleWidget motorARPM;
+    private SimpleWidget motorBRPM;
 
     public MotorTest() {
         motorTab = Shuffleboard.getTab("Motor Controls");
@@ -35,6 +39,14 @@ public class MotorTest extends SubsystemBase {
         bothMotorShuffable = motorTab.add("Set Both Motors", 0);
         useBothMotor = motorTab.add("Use Both Motor Setting", false);
         invertBothMotor = motorTab.add("Invert Both Motor Setting", false);
+        motorARPM = motorTab.add("Motor A RPM", 0.0);
+        motorBRPM = motorTab.add("Motor B RPM", 0.0);
+
+        motorA.enableVoltageCompensation(12.16);
+        motorB.enableVoltageCompensation(12.16);
+
+        System.out.printf("Nominal voltage A: %f\n", motorA.getVoltageCompensationNominalVoltage());
+        System.out.printf("Nominal voltage B: %f\n", motorB.getVoltageCompensationNominalVoltage());
     }
 
     @Override
@@ -96,5 +108,10 @@ public class MotorTest extends SubsystemBase {
             }
         }
 
+        RelativeEncoder absEncA = motorA.getEncoder();
+        this.motorARPM.getEntry().setDouble(Math.abs(absEncA.getVelocity()));
+
+        RelativeEncoder absEncB = motorB.getEncoder();
+        this.motorBRPM.getEntry().setDouble(Math.abs(absEncB.getVelocity()));
     }
 }
