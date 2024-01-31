@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -14,25 +15,20 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MotorTest extends SubsystemBase {
-    private Spark motorA;
-    private PowerDistribution PDP;
+    private DigitalInput SensorUV;
    
-    private ShuffleboardTab motorTab;
+    private ShuffleboardTab sensorTab;
 
-    private SimpleWidget motorCurrent;
-    private SimpleWidget motorPercent;
+    private SimpleWidget Detected;
 
     public MotorTest() {
-        PDP = new PowerDistribution();
-        motorTab = Shuffleboard.getTab("Motor Controls");
-        motorCurrent = motorTab.add("Current", 0.0);
-        motorPercent = motorTab.add("Motor Percentage", 0.0);
-        motorA = new Spark(3);
+        SensorUV = new DigitalInput(5);
+        sensorTab = Shuffleboard.getTab("Sensors");
+        Detected = sensorTab.add("Detected", false);
     }
 
     @Override
     public void periodic() {
-        motorCurrent.getEntry().setDouble(PDP.getCurrent(6));
-        motorA.set(motorPercent.getEntry().getDouble(0));
-    }
+        Detected.getEntry().setBoolean(SensorUV.get());
+        }
 }
