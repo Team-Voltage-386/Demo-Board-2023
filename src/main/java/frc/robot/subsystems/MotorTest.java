@@ -15,20 +15,20 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MotorTest extends SubsystemBase {
-    private DigitalInput SensorUV;
+    private CANSparkMax m_motorA;
    
-    private ShuffleboardTab sensorTab;
+    private ShuffleboardTab motorTab;
 
-    private SimpleWidget Detected;
+    private SimpleWidget encoder;
 
     public MotorTest() {
-        SensorUV = new DigitalInput(5);
-        sensorTab = Shuffleboard.getTab("Sensors");
-        Detected = sensorTab.add("Detected", false);
+        m_motorA = new CANSparkMax(11, MotorType.kBrushless);
+        motorTab = Shuffleboard.getTab("Sensors");
+        encoder = motorTab.add("Absolute Encoder", 0);
     }
 
     @Override
     public void periodic() {
-        Detected.getEntry().setBoolean(SensorUV.get());
+        encoder.getEntry().setDouble(m_motorA.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle).getPosition()*360);
         }
 }
