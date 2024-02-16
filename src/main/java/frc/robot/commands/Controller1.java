@@ -10,14 +10,14 @@ import static frc.robot.Constants.OperatorConstants.*;
 public class Controller1 extends CommandBase {
 
     private final LEDSubsystem led;
-    private final MOTORSubsystem motors;
+    //private final MOTORSubsystem motors;
     private final PneumaticsSubsystem piston;
 
     public boolean isPurple = false;
 
-    public Controller1(LEDSubsystem LED, MOTORSubsystem MOTORS, PneumaticsSubsystem PISTON) {
+    public Controller1(LEDSubsystem LED, /*MOTORSubsystem MOTORS,*/ PneumaticsSubsystem PISTON) {
         led = LED;
-        motors = MOTORS;
+        //motors = MOTORS;
         piston = PISTON;
         // init
         led.allOff();
@@ -31,7 +31,7 @@ public class Controller1 extends CommandBase {
         else if (v < -0.4) led.allYellow();
         else led.allOff();
 
-        motors.setPower1(kcont1.getRawAxis(kRightVertical));
+        //motors.setPower1(kcont1.getRawAxis(kRightVertical));
 
         if(kcont1.getRawButtonPressed(kA)) piston.pistonForward();
         if(kcont1.getRawButtonPressed(kB)) piston.pistonReverse();

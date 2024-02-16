@@ -34,7 +34,7 @@ public class RobotContainer {
   private final MOTORSubsystem m_motors = new MOTORSubsystem();
   private final PneumaticsSubsystem m_PneumaticsSubsystem = new PneumaticsSubsystem();
 
-  private final Controller1 cont1Command = new Controller1(m_ledSubsystem, m_motors, m_PneumaticsSubsystem);
+  private final Controller1 cont1Command = new Controller1(m_ledSubsystem, /*m_motors,*/ m_PneumaticsSubsystem);
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed

@@ -20,7 +20,7 @@ public class PneumaticsSubsystem extends SubsystemBase{
 
     private PneumaticsControlModule pcm = new PneumaticsControlModule();
 
-    private DoubleSolenoid testSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 3);
+    private DoubleSolenoid testSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
     private Compressor pcmCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
 

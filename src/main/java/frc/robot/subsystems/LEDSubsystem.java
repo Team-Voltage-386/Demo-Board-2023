@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LEDSubsytem. */
   private static final int kLEDPort = 4;
-  private static final int kLEDLength = 60;
+  private static final int kLEDLength = 10;
   private String currentColor = "yellow";
   private boolean isYellow = false;
 
