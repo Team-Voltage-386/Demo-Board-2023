@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.OperatorConstants.*;
 
@@ -16,36 +15,38 @@ public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LEDSubsytem. */
   private static final int kLEDPort1 = 4;
   private static final int kLEDLength1 = 66;
-  private static final int kLEDPort2 = 5;
-  private static final int kLEDLength2 = 23;
-  private String currentColor = "yellow";
+  // private static final int kLEDPort2 = 5;
+  // private static final int kLEDLength2 = 23;
   private boolean isYellow = false;
   private boolean TimeToCharge = false;
 
   AddressableLED led1 = new AddressableLED(kLEDPort1);
-  AddressableLED led2 = new AddressableLED(kLEDPort2);
-  AddressableLED[] LEDList = {led1, led2};
-  
+  // AddressableLED led2 = new AddressableLED(kLEDPort2);
+  AddressableLED[] LEDList = { led1 };
 
   AddressableLEDBuffer ledBuffer1 = new AddressableLEDBuffer(kLEDLength1);
-  AddressableLEDBuffer ledBuffer2 = new AddressableLEDBuffer(kLEDLength2);
-  AddressableLEDBuffer[] LEDBufferList = {ledBuffer1, ledBuffer2};
+  // AddressableLEDBuffer ledBuffer2 = new AddressableLEDBuffer(kLEDLength2);
+  AddressableLEDBuffer[] LEDBufferList = { ledBuffer1 };
 
   public LEDSubsystem() {
     led1.setLength(kLEDLength1);
     led1.setData(ledBuffer1);
-    led2.setLength(kLEDLength2);
-    led2.setData(ledBuffer2);
+    // led2.setLength(kLEDLength2);
+    // led2.setData(ledBuffer2);
     allOff();
     led1.start();
-    led2.start();
+    // led2.start();
+  }
+
+  public int ledStripLength() {
+    return kLEDLength1;
   }
 
   public void setOneGreen(int index, int LED) {
     LEDBufferList[LED].setRGB(index, 0, 255, 0);
   }
 
-  public CommandBase setAllPurple() {
+  public Command setAllPurple() {
     return runOnce(
         () -> {
           for (int i = 0; i < ledBuffer1.getLength(); i++) {
@@ -67,7 +68,7 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void allOff() {
-    for(int k = 0; k < LEDBufferList.length; k++)
+    for (int k = 0; k < LEDBufferList.length; k++)
       for (int i = 0; i < LEDBufferList[k].getLength(); i++) {
         LEDBufferList[k].setRGB(i, 0, 0, 0);
       }
@@ -86,13 +87,13 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void redStrobe() {
-    if(((int)(Timer.getMatchTime()*10)%2) == 1)
+    if (((int) (Timer.getMatchTime() * 10) % 2) == 1)
       allRed(0);
     else
       allOff(0);
   }
 
-  public CommandBase setAllYellow() {
+  public Command setAllYellow() {
     return runOnce(
         () -> {
           for (int i = 0; i < ledBuffer1.getLength(); i++) {
@@ -107,7 +108,7 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
-  public CommandBase twoColorToggle() {
+  public Command twoColorToggle() {
     return runOnce(
         () -> {
           if (isYellow == true) {
@@ -133,7 +134,7 @@ public class LEDSubsystem extends SubsystemBase {
     rainbowFirstPixelHue %= 180;
   }
 
-  public CommandBase commandRainbow() {
+  public Command commandRainbow() {
     return runOnce(
         () -> {
           for (var i = 0; i < ledBuffer1.getLength(); i++) {
@@ -146,7 +147,7 @@ public class LEDSubsystem extends SubsystemBase {
         });
   }
 
-  public CommandBase movingRainbow() {
+  public Command movingRainbow() {
     return runOnce(
         () -> {
           for (int i = 0; i < 60; i++) {
@@ -159,17 +160,20 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   /**
-   * inputs angle from gyro and makes the LEDs do pretty colors using a 3phase sin wave
+   * inputs angle from gyro and makes the LEDs do pretty colors using a 3phase sin
+   * wave
+   * 
    * @param a
    */
   public void setColorWithAngle(double angle, int LED) {
-    int a = (int)angle;
-    if(a > 360 || a < -360)  a = a%360;
-    //logic converting degrees to radians and multiplying by 255
-    int r = Math.abs((int)(255*Math.pow(Math.cos(2*((a*Pi)/180)), 3)));
-    int g = Math.abs((int)(255*Math.pow(Math.cos(2*(Pi/3) + ((a*Pi)/180)), 3)));
-    int b = Math.abs((int)(255*Math.pow(Math.cos(2*(((2*Pi)/3) + ((a*Pi)/180))), 3)));
-    //setting RGB values
+    int a = (int) angle;
+    if (a > 360 || a < -360)
+      a = a % 360;
+    // logic converting degrees to radians and multiplying by 255
+    int r = Math.abs((int) (255 * Math.pow(Math.cos(2 * ((a * Pi) / 180)), 3)));
+    int g = Math.abs((int) (255 * Math.pow(Math.cos(2 * (Pi / 3) + ((a * Pi) / 180)), 3)));
+    int b = Math.abs((int) (255 * Math.pow(Math.cos(2 * (((2 * Pi) / 3) + ((a * Pi) / 180))), 3)));
+    // setting RGB values
     for (int i = 0; i < ledBuffer1.getLength(); i++) {
       ledBuffer1.setRGB(i, r, g, b);
     }
@@ -180,62 +184,63 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void setOneBlue(int index, int LED) {
-      LEDBufferList[LED].setRGB(index, 0, 0, 255);
+    LEDBufferList[LED].setRGB(index, 0, 0, 255);
   }
 
   double BYCycle = 0;
-  public void BlueYellow(int LED)
-    {
-      BYCycle += 0.1;
-        int a = Math.abs((int)(5*Math.cos(BYCycle)))+1;
-        for(int i = 0; i < LEDBufferList[LED].getLength(); i++)
-        {
-            if(i%a == 0) {
-                setOneBlue(i, LED);
-            } else {
-                setOneYellow(i, LED);
-            }
-        }
-        System.out.println(BYCycle + " " + a);
-    }
 
-    public int getLEDBuffer(int LED) {
-      return LEDBufferList[LED].getLength();
+  public void BlueYellow(int LED) {
+    BYCycle += 0.1;
+    int a = Math.abs((int) (5 * Math.cos(BYCycle))) + 1;
+    for (int i = 0; i < LEDBufferList[LED].getLength(); i++) {
+      if (i % a == 0) {
+        setOneBlue(i, LED);
+      } else {
+        setOneYellow(i, LED);
+      }
     }
+    System.out.println(BYCycle + " " + a);
+  }
 
-    int ChargeIndex = 0;
-    boolean b = false;
-    public void chargeReady() {
-      ChargeIndex = 0;
-      b = false;
-    }
+  public int getLEDBuffer(int LED) {
+    return LEDBufferList[LED].getLength();
+  }
 
-    // public void chargeUP() {
-    //   if(a < ledBuffer1.getLength()/2 && b == false) {
-    //     setOneBlue(a);
-    //     setOneBlue(ledBuffer1.getLength()-1 - a);
-    //   } else {
-    //     b = true;
-    //     a = 0;
-    //   }
-    //   a++;
-    //   System.out.println(a + " " + b);
-    // }
-    
+  int ChargeIndex = 0;
+  boolean b = false;
+
+  public void chargeReady() {
+    ChargeIndex = 0;
+    b = false;
+  }
+
+  // public void chargeUP() {
+  // if(a < ledBuffer1.getLength()/2 && b == false) {
+  // setOneBlue(a);
+  // setOneBlue(ledBuffer1.getLength()-1 - a);
+  // } else {
+  // b = true;
+  // a = 0;
+  // }
+  // a++;
+  // System.out.println(a + " " + b);
+  // }
+
   public void chargeUP() {
     TimeToCharge = true;
   }
 
   private int PeriodicRuns = 0;
+
   public void periodic() {
     // This method will be called once per scheduler run
-    for(int i = 0; i < LEDList.length; i++)
+    for (int i = 0; i < LEDList.length; i++)
       LEDList[i].setData(LEDBufferList[i]);
 
-    if(TimeToCharge && PeriodicRuns < LEDBufferList[0].getLength()) {
+    if (TimeToCharge && PeriodicRuns < LEDBufferList[0].getLength()) {
       setOneYellow(PeriodicRuns, 0);
       PeriodicRuns++;
     }
-    
+
   }
 }
